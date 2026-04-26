@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ninja Connect ISM | CACHATTO</title>
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        /* Header Dropdown (Shared) */
+        .nav-products {
+            position: relative;
+        }
+
+        .nav-products-btn {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            color: #4b5563;
+            font-weight: 500;
+            border: none;
+            background: none;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: color 0.18s;
+        }
+
+        .nav-products:hover .nav-products-btn {
+            color: #2563eb;
+        }
+
+        .chevron {
+            width: 14px;
+            height: 14px;
+            color: #9ca3af;
+            transition: transform 0.25s ease;
+        }
+
+        .nav-products:hover .chevron {
+            transform: rotate(180deg);
+            color: #2563eb;
+        }
+
+        .dropdown-panel {
+            position: absolute;
+            top: calc(100% + 14px);
+            left: 50%;
+            transform: translateX(-50%) translateY(-6px);
+            width: 220px;
+            background: rgba(255, 255, 255, 0.55);
+            backdrop-filter: blur(18px) saturate(180%);
+            -webkit-backdrop-filter: blur(18px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.45);
+            border-radius: 16px;
+            box-shadow:
+                0 8px 32px rgba(0, 0, 0, 0.10),
+                0 1.5px 0px rgba(255, 255, 255, 0.7) inset;
+            padding: 6px;
+            opacity: 0;
+            pointer-events: none;
+            visibility: hidden;
+            transition: opacity 0.22s ease, transform 0.22s ease, visibility 0.22s;
+            z-index: 100;
+        }
+
+        .dropdown-panel::before {
+            content: '';
+            position: absolute;
+            top: -14px;
+            left: 0;
+            right: 0;
+            height: 14px;
+        }
+
+        .nav-products:hover .dropdown-panel {
+            opacity: 1;
+            pointer-events: auto;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 10px 14px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #1e3a5f;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: background 0.15s, color 0.15s;
+        }
+
+        .dropdown-item:hover {
+            background: rgba(37, 99, 235, 0.08);
+            color: #1d4ed8;
+        }
+
+        .dropdown-divider {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.5);
+            margin: 4px 14px;
+        }
+
+        /* Marquee Animation */
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .animate-scroll {
+            animation: scroll 40s linear infinite;
+            display: flex;
+            width: max-content;
+        }
+
+        /* Partner Interaction */
+        .carousel-container:hover .animate-scroll {
+            animation-play-state: paused;
+        }
+
+        .carousel-container:hover .partner-logo {
+            opacity: 0.25;
+            filter: grayscale(100%);
+        }
+
+        .partner-logo {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .carousel-container .partner-logo:hover {
+            opacity: 1;
+            filter: grayscale(0%);
+            transform: scale(1.05);
+        }
+    </style>
+
+</head>
+
+<body class="bg-gray-50 text-gray-800 font-sans antialiased overflow-x-hidden">
+
+    <!-- Header (Shared) -->
+    <header class="fixed top-0 left-0 w-full bg-white shadow-sm z-50">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+
+            <!-- Logo -->
+            <div>
+                <a href="/index.html">
+                    <img src="Assets/logos/CACHATTO-blue.svg" alt="CACHATTO" class="h-6" />
+                </a>
+            </div>
+
+            <!-- Desktop Nav -->
+            <nav class="hidden md:flex space-x-8 text-gray-600 font-medium">
+                <a href="/index.html" class="hover:text-blue-600">Home</a>
+                <a href="/about.html" class="hover:text-blue-600">About Us</a>
+                <a href="#" class="hover:text-blue-600">Solutions</a>
+                <div class="nav-products">
+                    <button class="nav-products-btn">
+                        Products
+                        <svg class="chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 6l4 4 4-4" />
+                        </svg>
+                    </button>
+
+                    <div class="dropdown-panel">
+                        <a href="/cachatto-one.html" class="dropdown-item">CACHATTO One</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="/ninja-connect-telework.html" class="dropdown-item">Ninja Connect Telework</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="/ninja-connect-ism.html" class="dropdown-item">Ninja Connect ISM</a>
+                    </div>
+                </div> <a href="#" class="hover:text-blue-600">Resources</a>
+                <a href="#" class="hover:text-blue-600">Career</a>
+                <a href="#" class="hover:text-blue-600">Contact</a>
+            </nav>
+
+            <!-- CTA (Desktop) -->
+            <div class="hidden md:flex">
+                <a href="#" class="bg-blue-600 text-white px-5 py-2 rounded-full font-medium hover:bg-blue-500 transition shadow-sm hover:shadow-md">
+                    Book a demo →
+                </a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button id="menu-btn" class="md:hidden text-gray-700 focus:outline-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+
+        </div>
+
+        <!-- Mobile Menu Overlay -->
+        <div id="mobile-menu" class="fixed inset-0 bg-white z-40 hidden flex-col">
+            <div class="flex items-center justify-between px-6 py-4 border-b">
+                <div>
+                    <img src="Assets/logos/CACHATTO-blue.svg" alt="CACHATTO" class="h-6" />
+                </div>
+                <button id="close-btn" class="text-gray-700">✕</button>
+            </div>
+            <nav class="flex flex-col px-6 py-6 space-y-6 text-lg text-gray-800 font-medium overflow-y-auto">
+                <a href="/index.html">Home</a>
+                <a href="/about.html">About Us</a>
+                <a href="#">Solutions</a>
+                <div>
+                    <button id="mobile-products-btn" class="flex items-center justify-between w-full text-left">
+                        Products
+                        <svg id="mobile-chevron" class="w-4 h-4 text-gray-400 transition-transform duration-200"
+                            viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 6l4 4 4-4" />
+                        </svg>
+                    </button>
+                    <div id="mobile-products-sub" class="hidden mt-4 ml-3 space-y-3 border-l-2 border-blue-100 pl-4">
+                        <a href="/cachatto-one.html" class="block text-base text-gray-600 hover:text-blue-600">CACHATTO One</a>
+                        <a href="/ninja-connect-telework.html" class="block text-base text-gray-600">Ninja Connect Telework</a>
+                        <a href="/ninja-connect-ism.html" class="block text-base text-gray-600 hover:text-blue-600">Ninja Connect ISM</a>
+                    </div>
+                </div>
+                <a href="#">Resources</a>
+                <a href="#">Career</a>
+                <a href="#">Contact</a>
+                <a href="#" class="mt-6 bg-blue-600 text-white px-6 py-3 rounded-full text-center">
+                    Book a demo →
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative bg-white pt-32 pb-16 overflow-hidden">
+        <!-- Background Decoration -->
+        <div class="absolute inset-0 z-0 opacity-40">
+            <div class="absolute -top-40 -right-40 w-[600px] h-[600px] bg-blue-50 rounded-full blur-3xl"></div>
+            <div class="absolute -bottom-40 -left-40 w-[600px] h-[600px] bg-indigo-50 rounded-full blur-3xl"></div>
+        </div>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-6 text-center">
+            <!-- Product Badge -->
+            <div class="inline-flex items-center space-x-2 bg-blue-50 text-blue-600 px-4 py-2 rounded-full text-sm font-semibold tracking-wide uppercase mb-6 border border-blue-100">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a8 8 0 100 16 8 8 0 000-16zM9 11H7v-2h2V7l3 3-3 3v-2z"></path></svg>
+                <span>NINJACONNECT ISM</span>
+            </div>
+
+            <!-- Headline -->
+            <h1 class="text-4xl md:text-6xl font-extrabold text-gray-900 leading-tight mb-6">
+                The Future of Secure <br/>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">IT-OT Convergence</span>
+            </h1>
+
+            <!-- Subtext -->
+            <p class="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed mb-10">
+                In the era of Industry 4.0, the volume of data flow between Information Technology (IT) and Operational Technology (OT) has increased drastically. This surge in data exchange presents significant challenges in IT-OT convergence and data security. NinjaConnect ISM is here to address these challenges head-on.
+            </p>
+
+            <!-- CTA -->
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#" class="bg-blue-600 text-white px-8 py-4 rounded-full font-semibold hover:bg-blue-700 transition shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+                    Start Your Free Trial
+                </a>
+                <a href="#" class="bg-white border border-gray-200 text-gray-700 px-8 py-4 rounded-full font-semibold hover:bg-gray-50 transition shadow-sm hover:shadow-md">
+                    Watch Demo Video
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trusted By / Partner Marquee -->
+    <section class="bg-white py-12 border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-6">
+            <p class="text-center text-sm font-semibold text-gray-400 uppercase tracking-wider mb-8">
+                Trusted by security-conscious enterprises worldwide
+            </p>
+            <div class="relative overflow-hidden carousel-container py-4">
+                <!-- Fade Gradients -->
+                <div class="pointer-events-none absolute left-0 top-0 h-full w-24 bg-gradient-to-r from-white to-transparent z-10"></div>
+                <div class="pointer-events-none absolute right-0 top-0 h-full w-24 bg-gradient-to-l from-white to-transparent z-10"></div>
+                <!-- Scrolling Logos -->
+                <div class="animate-scroll space-x-12 items-center">
+                    <img src="Assets/images/partners/logo_nri-secure.png" class="h-10 opacity-70 grayscale partner-logo">
+                    <img src="Assets/images/partners/logo_opt.png" class="h-10 opacity-70 grayscale partner-logo">
+                    <img src="Assets/images/partners/logo_solnet.png" class="h-10 opacity-70 grayscale partner-logo">
+                    <img src="Assets/images/partners/logo_belldata.png" class="h-10 opacity-70 grayscale partner-logo">
+                    <img src="Assets/images/partners/logo_ricoh-japan.png" class="h-10 opacity-70 grayscale partner-logo">
+                    <img src="Assets/images/partners/logo_panasonic.png" class="h-10 opacity-70 grayscale partner-logo">
+                    <img src="Assets/images/partners/logo_docomo.png" class="h-10 opacity-70 grayscale partner-logo">
+                    <img src="Assets/images/partners/logo_kddi.png" class="h-10 opacity-70 grayscale partner-logo">
+                    <img src="Assets/images/partners/logo_softbank.png" class="h-10 opacity-70 grayscale partner-logo">
+                    <img src="Assets/images/partners/logo_agrex.png" class="h-10 opacity-70 grayscale partner-logo">
+                    <!-- Duplicate -->
+                    <img src="Assets/images/partners/logo_nri-secure.png" class="h-10 opacity-70 grayscale partner-logo">
+                    <img src="Assets/images/partners/logo_opt.png" class="h-10 opacity-70 grayscale partner-logo">
+                    <img src="Assets/images/partners/logo_solnet.png" class="h-10 opacity-70 grayscale partner-logo">
+                    <img src="Assets/images/partners/logo_belldata.png" class="h-10 opacity-70 grayscale partner-logo">
+                    <img src="Assets/images/partners/logo_ricoh-japan.png" class="h-10 opacity-70 grayscale partner-logo">
+                    <img src="Assets/images/partners/logo_panasonic.png" class="h-10 opacity-70 grayscale partner-logo">
+                    <img src="Assets/images/partners/logo_docomo.png" class="h-10 opacity-70 grayscale partner-logo">
+                    <img src="Assets/images/partners/logo_kddi.png" class="h-10 opacity-70 grayscale partner-logo">
+                    <img src="Assets/images/partners/logo_softbank.png" class="h-10 opacity-70 grayscale partner-logo">
+                    <img src="Assets/images/partners/logo_agrex.png" class="h-10 opacity-70 grayscale partner-logo">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Section -->
+    <section class="bg-gray-50 py-24">
+        <div class="max-w-7xl mx-auto px-6">
+            
+            <div class="text-center mb-16">
+                <span class="text-blue-600 font-bold uppercase tracking-wider text-sm">Why Organizations Choose Us</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mt-3 mb-6">Our Services</h2>
+                <p class="text-gray-600 max-w-3xl mx-auto text-lg leading-relaxed">
+                    NinjaConnect ISM is a cutting-edge secure IT-OT convergence platform designed to safeguard your enterprise against cybersecurity threats. Built on the robust principles of the NIST Cybersecurity Framework (CSF), Software-Defined Perimeter (SDP), and Zero-Trust architecture, our platform ensures seamless and secure collaboration between IT and OT.
+                </p>
+            </div>
+
+            <!-- 3x2 Grid -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                    <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center mb-6">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Secure Remote Access</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">
+                        Anywhere, anytime and any-device secure access with inbuilt MFA and DLP features. Provides access to real-time data and ensures improved productivity.
+                    </p>
+                </div>
+
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                    <div class="w-12 h-12 rounded-xl bg-green-50 text-green-600 flex items-center justify-center mb-6">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Enhanced Security</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">
+                        By leveraging NIST CSF, SDP, and Zero-Trust principles, NinjaConnect ISM provides a fortified security framework for your IT-OT integration.
+                    </p>
+                </div>
+
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                    <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center mb-6">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Strong Defence</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">
+                        Built-in Firewall, Virus scanning, IPS and DPI systems provides protection against malicious malware attacks.
+                    </p>
+                </div>
+
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                    <div class="w-12 h-12 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center mb-6">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Protection Against Exposure</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">
+                        Our platform prevents direct exposure of OT assets, such as machines and controllers, to the Internet.
+                    </p>
+                </div>
+
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                    <div class="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center mb-6">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Enterprise Grade Backup</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">
+                        Ability to backup and restore machine configurations and data. Reduces downtime using recovery from timely backups.
+                    </p>
+                </div>
+
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                    <div class="w-12 h-12 rounded-xl bg-yellow-50 text-yellow-600 flex items-center justify-center mb-6">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Simple, Secure, Proven</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">
+                        Built around SDP and Zero-Trust principles with simple yet powerful architecture with complete isolation.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Core Features & Split Section -->
+    <section class="bg-white py-24">
+        <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
+            
+            <!-- Left Side: Core Features -->
+            <div>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">Core Features</h2>
+                <p class="text-gray-600 text-lg mb-8 leading-relaxed">
+                    At NinjaConnect ISM, our mission is to deliver a seamless and secure IT-OT convergence solution. Here are the core features that make our service exceptional:
+                </p>
+                
+                <ul class="space-y-4">
+                    <li class="flex items-center text-gray-700 font-medium">
+                        <span class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mr-4">✓</span>
+                        Enterprise Backup of Machine Configuration Data
+                    </li>
+                    <li class="flex items-center text-gray-700 font-medium">
+                        <span class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mr-4">✓</span>
+                        Data Leak Protection
+                    </li>
+                    <li class="flex items-center text-gray-700 font-medium">
+                        <span class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mr-4">✓</span>
+                        VPN-less Remote Access
+                    </li>
+                    <li class="flex items-center text-gray-700 font-medium">
+                        <span class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mr-4">✓</span>
+                        Multifactor Authentication
+                    </li>
+                    <li class="flex items-center text-gray-700 font-medium">
+                        <span class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mr-4">✓</span>
+                        Single Sign-On
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Right Side: Best Practices -->
+            <div class="bg-gray-50 rounded-3xl p-8 md:p-12 border border-gray-100 shadow-sm relative overflow-hidden">
+                <div class="absolute -right-8 -top-8 w-32 h-32 bg-blue-500 rounded-full opacity-10 blur-2xl"></div>
+                
+                <h3 class="text-2xl font-bold text-gray-900 mb-8">Best Practices</h3>
+                
+                <div class="space-y-8">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 mt-1">
+                            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                        </div>
+                        <div class="ml-4">
+                            <h4 class="text-lg font-bold text-gray-900">Isolation of OT Assets</h4>
+                            <p class="text-gray-600 text-sm mt-1">Isolating OT assets from direct access is essential for protecting critical infrastructure. Strategies like network segmentation and access control reduce cyber threats.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 mt-1">
+                            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path></svg>
+                        </div>
+                        <div class="ml-4">
+                            <h4 class="text-lg font-bold text-gray-900">Cloud-based Access</h4>
+                            <p class="text-gray-600 text-sm mt-1">Secure unidirectional cloud-based access protects critical infrastructure from cyber threats while leveraging cloud benefits.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 mt-1">
+                            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                        </div>
+                        <div class="ml-4">
+                            <h4 class="text-lg font-bold text-gray-900">Secure Patch Updates</h4>
+                            <p class="text-gray-600 text-sm mt-1">Secure patch updates protect IT and OT systems from vulnerabilities. Best practices include testing patches and continuous monitoring.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 mt-1">
+                            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                        </div>
+                        <div class="ml-4">
+                            <h4 class="text-lg font-bold text-gray-900">Real-time Monitoring</h4>
+                            <p class="text-gray-600 text-sm mt-1">Real-time monitoring of control systems is crucial for ensuring reliability, security, and performance. Analyze data in real time to prevent failures.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="bg-white py-24 border-t border-gray-100">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <span class="text-blue-600 font-bold text-sm uppercase tracking-widest mb-2 block">Workflow</span>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">How It Works</h2>
+                <p class="text-gray-600 text-lg max-w-2xl mx-auto">Get your remote access up and running securely with these foundational steps.</p>
+            </div>
+            
+            <div class="grid md:grid-cols-5 gap-6 relative">
+                <!-- Connector Line (Desktop only) -->
+                <div class="hidden md:block absolute top-20 left-[10%] right-[10%] h-0.5 bg-gray-200 z-0"></div>
+
+                <div class="relative z-10 flex flex-col items-center text-center group">
+                    <div class="w-20 h-20 rounded-full bg-white border-4 border-blue-100 flex items-center justify-center mb-4 z-10 transition group-hover:border-blue-300">
+                        <svg class="w-8 h-8 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">Network Segmentation</h3>
+                    <p class="text-gray-600 text-xs leading-relaxed">We isolate critical OT assets, preventing direct exposure to the internet.</p>
+                </div>
+
+                <div class="relative z-10 flex flex-col items-center text-center group">
+                    <div class="w-20 h-20 rounded-full bg-white border-4 border-blue-100 flex items-center justify-center mb-4 z-10 transition group-hover:border-blue-300">
+                        <svg class="w-8 h-8 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">Seamless Access</h3>
+                    <p class="text-gray-600 text-xs leading-relaxed">Access your OT resources securely from anywhere, anytime, on any device.</p>
+                </div>
+
+                <div class="relative z-10 flex flex-col items-center text-center group">
+                    <div class="w-20 h-20 rounded-full bg-white border-4 border-blue-100 flex items-center justify-center mb-4 z-10 transition group-hover:border-blue-300">
+                        <svg class="w-8 h-8 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">Endpoint DLP</h3>
+                    <p class="text-gray-600 text-xs leading-relaxed">Built-in mechanisms safeguard sensitive data against leaks and unauthorized access.</p>
+                </div>
+
+                <div class="relative z-10 flex flex-col items-center text-center group">
+                    <div class="w-20 h-20 rounded-full bg-white border-4 border-blue-100 flex items-center justify-center mb-4 z-10 transition group-hover:border-blue-300">
+                        <svg class="w-8 h-8 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path></svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">Enterprise Backup</h3>
+                    <p class="text-gray-600 text-xs leading-relaxed">Effortlessly backup machine data and configurations for quick recovery.</p>
+                </div>
+                
+                <div class="relative z-10 flex flex-col items-center text-center group">
+                    <div class="w-20 h-20 rounded-full bg-white border-4 border-blue-100 flex items-center justify-center mb-4 z-10 transition group-hover:border-blue-300">
+                        <svg class="w-8 h-8 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2">Robust Framework</h3>
+                    <p class="text-gray-600 text-xs leading-relaxed">Based on NIST CSF, SDP, and Zero-Trust principles for multi-layered security.</p>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <a href="#" class="inline-block bg-blue-600 text-white px-8 py-3 rounded-full font-semibold hover:bg-blue-700 transition shadow-md">
+                    START NOW
+                </a>
+            </div>
+        </div>
+    </section>
+
+    
+    <!-- Related Articles Section -->
+    <section class="bg-gray-50 py-16 md:py-24">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-5xl font-extrabold text-blue-700 mb-4">Related Articles</h2>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Article 1 -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-xl transition-shadow flex flex-col">
+                    <img src="https://placehold.co/600x400/e2e8f0/64748b?text=Article+Image" alt="Fortifying Container Security" class="w-full h-48 object-cover">
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="text-xl font-bold text-gray-900 mb-3 leading-snug">Fortifying Container Security for Modern-Day Companies and Their Hybrid Workforce</h3>
+                        <p class="text-gray-600 text-sm leading-relaxed mb-6 flex-grow">
+                            In a time characterized by digital transformation and remote work, modern companies are confronted with a critical challenge: how to protect their valuable data and applications while accommodating the flexibility demanded by hybrid work environments.
+                        </p>
+                        <a href="#" class="text-blue-600 font-bold text-sm tracking-wide hover:text-blue-800 transition uppercase mt-auto">Read More</a>
+                    </div>
+                </div>
+
+                <!-- Article 2 -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-xl transition-shadow flex flex-col">
+                    <img src="https://placehold.co/600x400/e2e8f0/64748b?text=Article+Image" alt="Maximizing Efficiency" class="w-full h-48 object-cover">
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="text-xl font-bold text-gray-900 mb-3 leading-snug">Maximizing Efficiency: How IT-OT Convergence Drives Industry 4.0 Success</h3>
+                        <p class="text-gray-600 text-sm leading-relaxed mb-6 flex-grow">
+                            In the not-so-distant past, Information Technology (IT) and Operational Technology (OT) lived in separate worlds. IT handled your emails, software updates, and data storage, while OT ruled the realm of manufacturing processes, machinery, and industrial control systems.
+                        </p>
+                        <a href="#" class="text-blue-600 font-bold text-sm tracking-wide hover:text-blue-800 transition uppercase mt-auto">Read More</a>
+                    </div>
+                </div>
+
+                <!-- Article 3 -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-xl transition-shadow flex flex-col">
+                    <img src="https://placehold.co/600x400/e2e8f0/64748b?text=Article+Image" alt="Enriching Indian Manufacturing Companies" class="w-full h-48 object-cover">
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="text-xl font-bold text-gray-900 mb-3 leading-snug">Enriching Indian Manufacturing Companies: The Imperative for Secure Access Solution</h3>
+                        <p class="text-gray-600 text-sm leading-relaxed mb-6 flex-grow">
+                            In recent years, the Indian manufacturing sector has witnessed significant growth, fueled by technological advancements and the country's push for self-reliance. As companies embrace Industry 4.0 and the Internet of Things (IoT), secure access solutions become critical.
+                        </p>
+                        <a href="#" class="text-blue-600 font-bold text-sm tracking-wide hover:text-blue-800 transition uppercase mt-auto">Read More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQs Section -->
+    <section class="bg-slate-50 py-24">
+        <div class="max-w-5xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <div class="inline-flex items-center space-x-2 bg-blue-100 text-blue-700 border border-blue-200 px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase mb-6 shadow-sm">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <span>Need Help?</span>
+                </div>
+                <h2 class="text-3xl md:text-5xl font-extrabold text-slate-900 mb-4">FAQs</h2>
+                <p class="text-slate-600 text-lg">Recently Asked Questions</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-4 accordion-container items-start">
+                <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden group">
+                    <button class="w-full text-left px-6 py-5 flex items-center justify-between focus:outline-none faq-btn">
+                        <span class="font-semibold text-slate-800 pr-4">What is NinjaConnect ISM?</span>
+                        <div class="w-6 h-6 rounded-full border border-slate-200 flex items-center justify-center text-slate-400 group-hover:border-blue-400 group-hover:text-blue-600 transition faq-icon">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                        </div>
+                    </button>
+                    <div class="px-6 pb-5 text-slate-600 text-sm leading-relaxed hidden faq-content">
+                        <p>NinjaConnect ISM is a secure IT-OT convergence platform designed to facilitate seamless collaboration between Information Technology (IT) and Operational Technology (OT) while ensuring robust cybersecurity measures.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden group">
+                    <button class="w-full text-left px-6 py-5 flex items-center justify-between focus:outline-none faq-btn">
+                        <span class="font-semibold text-slate-800 pr-4">How does NinjaConnect ISM enhance security?</span>
+                        <div class="w-6 h-6 rounded-full border border-slate-200 flex items-center justify-center text-slate-400 group-hover:border-blue-400 group-hover:text-blue-600 transition faq-icon">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                        </div>
+                    </button>
+                    <div class="px-6 pb-5 text-slate-600 text-sm leading-relaxed hidden faq-content">
+                        <p>NinjaConnect ISM enhances security through various means:</p>
+                        <ul class="list-disc pl-5 mt-2 space-y-1">
+                            <li><strong>Secure Network Segmentation:</strong> It isolates critical OT assets from potential cyber threats by segmenting the network.</li>
+                            <li><strong>Endpoint Data Leak Prevention (DLP):</strong> Built-in mechanisms monitor and control data transfers at the endpoint level, safeguarding sensitive information.</li>
+                            <li><strong>Robust Security Framework:</strong> Based on NIST CSF, SDP, and Zero-Trust principles, it implements multi-layered security measures, ensuring only authorized access to OT resources.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden group">
+                    <button class="w-full text-left px-6 py-5 flex items-center justify-between focus:outline-none faq-btn">
+                        <span class="font-semibold text-slate-800 pr-4">Can I access my OT resources remotely with NinjaConnect ISM?</span>
+                        <div class="w-6 h-6 rounded-full border border-slate-200 flex items-center justify-center text-slate-400 group-hover:border-blue-400 group-hover:text-blue-600 transition faq-icon">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                        </div>
+                    </button>
+                    <div class="px-6 pb-5 text-slate-600 text-sm leading-relaxed hidden faq-content">
+                        <p>Yes, NinjaConnect ISM provides seamless and secure remote access to OT resources from anywhere, at any time, and on any device, enabling authorized personnel to manage OT infrastructure effectively.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden group">
+                    <button class="w-full text-left px-6 py-5 flex items-center justify-between focus:outline-none faq-btn">
+                        <span class="font-semibold text-slate-800 pr-4">How does NinjaConnect ISM ensure data backup and recovery?</span>
+                        <div class="w-6 h-6 rounded-full border border-slate-200 flex items-center justify-center text-slate-400 group-hover:border-blue-400 group-hover:text-blue-600 transition faq-icon">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                        </div>
+                    </button>
+                    <div class="px-6 pb-5 text-slate-600 text-sm leading-relaxed hidden faq-content">
+                        <p>NinjaConnect ISM offers enterprise-grade backup solutions, allowing OT administrators to effortlessly back up machine data and configurations. This facilitates quick recovery in case of system faults or disruptions, minimizing downtime and ensuring continuity of operations.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden group">
+                    <button class="w-full text-left px-6 py-5 flex items-center justify-between focus:outline-none faq-btn">
+                        <span class="font-semibold text-slate-800 pr-4">Is NinjaConnect ISM suitable for my organization's cybersecurity needs?</span>
+                        <div class="w-6 h-6 rounded-full border border-slate-200 flex items-center justify-center text-slate-400 group-hover:border-blue-400 group-hover:text-blue-600 transition faq-icon">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                        </div>
+                    </button>
+                    <div class="px-6 pb-5 text-slate-600 text-sm leading-relaxed hidden faq-content">
+                        <p>Absolutely! NinjaConnect ISM is designed to meet the cybersecurity needs of various industries and organizations. Whether you’re in manufacturing, healthcare, energy, or any other sector, our platform provides the necessary tools and features to safeguard your IT and OT environments effectively.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden group">
+                    <button class="w-full text-left px-6 py-5 flex items-center justify-between focus:outline-none faq-btn">
+                        <span class="font-semibold text-slate-800 pr-4">How can I get started with NinjaConnect ISM?</span>
+                        <div class="w-6 h-6 rounded-full border border-slate-200 flex items-center justify-center text-slate-400 group-hover:border-blue-400 group-hover:text-blue-600 transition faq-icon">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                        </div>
+                    </button>
+                    <div class="px-6 pb-5 text-slate-600 text-sm leading-relaxed hidden faq-content">
+                        <p>Getting started with NinjaConnect ISM is easy! Simply reach out to our team through our website or contact information, and we’ll guide you through the process of implementing our platform to enhance your organization’s security and productivity.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Shared CTA Section -->
+    <section class="relative bg-gradient-to-r from-blue-700 to-blue-500 py-24 overflow-hidden">
+        <!-- Grid Overlay -->
+        <div class="absolute inset-0 opacity-30">
+            <div
+                class="w-full h-full bg-[linear-gradient(to_right,gray_1px,transparent_1px),linear-gradient(to_bottom,gray_1px,transparent_1px)] bg-[size:60px_60px]">
+            </div>
+        </div>
+
+        <div class="relative max-w-4xl mx-auto px-6 text-center text-white">
+            <p class="uppercase tracking-widest text-sm text-blue-100 mb-4">Let’s Talk</p>
+            <h2 class="text-4xl md:text-5xl font-bold mb-6">Need Help?</h2>
+            <p class="text-blue-100 text-lg md:text-xl mb-10 leading-relaxed">
+                Our enterprise security specialists are ready to help you design the right
+                access architecture for your organisation.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#" class="bg-white text-blue-700 px-8 py-4 rounded-full font-semibold hover:bg-gray-100 transition">
+                    Talk to an Expert →
+                </a>
+                <a href="#" class="border border-white px-8 py-4 rounded-full font-semibold hover:bg-white hover:text-blue-700 transition">
+                    Request Demo
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Shared FOOTER -->
+    <footer class="bg-[#0B1F3A] text-gray-400 pt-20 pb-10">
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-4 gap-12">
+            <!-- LEFT -->
+            <div>
+                <h3 class="text-white text-2xl font-semibold mb-4">
+                    <img src="Assets/logos/CACHATTO-white.svg" alt="CACHATTO" class="h-5">
+                </h3>
+                <p class="text-sm leading-relaxed mb-6">
+                    Secure Unified Digital Workspace. Empowering enterprise teams with
+                    zero-trust access, data protection, and scalable security since 2004.
+                </p>
+                <!-- Social -->
+                <div class="flex space-x-3">
+                    <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-blue-600 transition">
+                        <span class="text-sm">in</span>
+                    </a>
+                    <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-blue-600 transition">
+                        <span class="text-sm">X</span>
+                    </a>
+                    <a href="#" class="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-blue-600 transition">
+                        ▶
+                    </a>
+                </div>
+            </div>
+
+            <!-- PRODUCTS -->
+            <div>
+                <h4 class="text-white font-semibold mb-4">Products</h4>
+                <ul class="space-y-3 text-sm">
+                    <li><a href="/cachatto-one.html" class="hover:text-white transition">CACHATTO One</a></li>
+                    <li><a href="/ninja-connect-telework.html" class="hover:text-white transition">NinjaConnect Telework</a></li>
+                    <li><a href="/ninja-connect-ism.html" class="hover:text-white transition">NinjaConnect ISM</a></li>
+                </ul>
+            </div>
+
+            <!-- SOLUTIONS -->
+            <div>
+                <h4 class="text-white font-semibold mb-4">Solutions</h4>
+                <ul class="space-y-3 text-sm">
+                    <li><a href="#" class="hover:text-white transition">Remote Work Security</a></li>
+                    <li><a href="#" class="hover:text-white transition">BYOD & Unmanaged Devices</a></li>
+                    <li><a href="#" class="hover:text-white transition">Zero Trust Access</a></li>
+                    <li><a href="#" class="hover:text-white transition">IT-OT Security</a></li>
+                </ul>
+            </div>
+
+            <!-- COMPANY -->
+            <div>
+                <h4 class="text-white font-semibold mb-4">Company</h4>
+                <ul class="space-y-3 text-sm">
+                    <li><a href="/about.html" class="hover:text-white transition">About Us</a></li>
+                    <li><a href="#" class="hover:text-white transition">Customers</a></li>
+                    <li><a href="#" class="hover:text-white transition">Partners</a></li>
+                    <li><a href="#" class="hover:text-white transition">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Divider -->
+        <div class="max-w-7xl mx-auto px-6 mt-16 border-t border-white/10 pt-6 flex flex-col md:flex-row justify-between items-center text-sm">
+            <p>© 2026 CACHATTO India Pvt, Ltd. All rights reserved.</p>
+            <div class="flex space-x-6 mt-4 md:mt-0">
+                <a href="#" class="hover:text-white transition">Privacy Policy</a>
+                <a href="#" class="hover:text-white transition">Terms of Use</a>
+                <a href="#" class="hover:text-white transition">Cookie Settings</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            
+            /* =========================
+               ACTIVE NAV LINK LOGIC
+            ========================= */
+            const currentPath = window.location.pathname;
+            
+            // Desktop links
+            const deskLinks = document.querySelectorAll('.nav-products .dropdown-item');
+            deskLinks.forEach(link => {
+                link.classList.remove('text-blue-600', 'font-bold');
+                link.classList.add('text-[#1e3a5f]', 'font-medium'); // default style
+                if (link.getAttribute('href') && currentPath.includes(link.getAttribute('href').replace('/', ''))) {
+                    link.classList.remove('text-[#1e3a5f]', 'font-medium');
+                    link.classList.add('text-blue-600', 'font-bold');
+                }
+            });
+
+            // Mobile links
+            const mobLinks = document.querySelectorAll('#mobile-products-sub a');
+            mobLinks.forEach(link => {
+                link.classList.remove('text-blue-600', 'font-semibold');
+                link.classList.add('text-gray-600');
+                if (link.getAttribute('href') && currentPath.includes(link.getAttribute('href').replace('/', ''))) {
+                    link.classList.remove('text-gray-600');
+                    link.classList.add('text-blue-600', 'font-semibold');
+                    
+                    // Auto-open mobile accordion if a child is active
+                    const sub = document.getElementById('mobile-products-sub');
+                    const chevron = document.getElementById('mobile-chevron');
+                    if(sub && chevron) {
+                        sub.classList.remove('hidden');
+                        chevron.style.transform = '';
+                    }
+                }
+            });
+
+            /* =========================
+               MOBILE MENU
+            ========================= */
+            const btn = document.getElementById('menu-btn');
+            const closeBtn = document.getElementById('close-btn');
+            const menu = document.getElementById('mobile-menu');
+
+            if (btn && menu && closeBtn) {
+                btn.addEventListener('click', () => {
+                    menu.classList.remove('hidden');
+                    document.body.classList.add('overflow-hidden');
+                });
+
+                closeBtn.addEventListener('click', () => {
+                    menu.classList.add('hidden');
+                    document.body.classList.remove('overflow-hidden');
+                });
+
+                // Mobile Products accordion
+                document.getElementById('mobile-products-btn').addEventListener('click', () => {
+                    const sub = document.getElementById('mobile-products-sub');
+                    const chevron = document.getElementById('mobile-chevron');
+                    const isOpen = !sub.classList.contains('hidden');
+                    sub.classList.toggle('hidden', isOpen);
+                    chevron.style.transform = isOpen ? '' : 'rotate(180deg)';
+                });
+            }
+
+            /* =========================
+               FAQ ACCORDION
+            ========================= */
+            const faqBtns = document.querySelectorAll('.faq-btn');
+            faqBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const content = btn.nextElementSibling;
+                    const iconPath = btn.querySelector('.faq-icon path');
+                    const iconContainer = btn.querySelector('.faq-icon');
+                    
+                    const isExpanded = !content.classList.contains('hidden');
+                    
+                    // Close all FAQs first
+                    document.querySelectorAll('.faq-content').forEach(c => c.classList.add('hidden'));
+                    document.querySelectorAll('.faq-icon path').forEach(p => p.setAttribute('d', 'M12 4v16m8-8H4'));
+                    document.querySelectorAll('.faq-icon').forEach(i => {
+                        i.classList.remove('bg-blue-50', 'text-blue-600', 'border-blue-200');
+                        i.classList.add('text-slate-400', 'border-slate-200');
+                    });
+                    
+                    // Open the clicked one if it wasn't already expanded
+                    if (!isExpanded) {
+                        content.classList.remove('hidden');
+                        iconPath.setAttribute('d', 'M20 12H4'); // minus icon
+                        iconContainer.classList.remove('text-slate-400', 'border-slate-200');
+                        iconContainer.classList.add('bg-blue-50', 'text-blue-600', 'border-blue-200');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
