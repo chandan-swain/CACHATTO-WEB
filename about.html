@@ -185,6 +185,82 @@
     </section>
 
 
+    <!-- WHAT WE OFFER SECTION -->
+    <!-- WE OFFER MORE -->
+    <section class="bg-gray-50 py-24">
+        <div class="max-w-7xl mx-auto px-6">
+
+            <!-- HEADER -->
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+                    We offer more than you expect
+                </h2>
+                <p class="text-gray-500 max-w-2xl mx-auto text-lg">
+                    CACHATTO goes beyond secure access by delivering a complete
+                    digital workspace experience designed for enterprise needs.
+                </p>
+            </div>
+
+            <!-- GRID -->
+            <div class="grid md:grid-cols-3 gap-8">
+
+                <!-- CARD 1 -->
+                <div
+                    class="bg-white rounded-[2rem] p-8 shadow-sm hover:shadow-md hover:-translate-y-1 transition duration-300">
+                    <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center mb-6 text-xl">
+                        📄
+                    </div>
+
+                    <h3 class="text-xl font-semibold text-gray-900 mb-3">
+                        Unified Workspace
+                    </h3>
+
+                    <p class="text-gray-600 text-sm leading-relaxed">
+                        Access enterprise applications, files, and systems from a single secure
+                        interface across cloud and on-premise environments.
+                    </p>
+                </div>
+
+                <!-- CARD 2 -->
+                <div
+                    class="bg-white rounded-[2rem] p-8 shadow-sm hover:shadow-md hover:-translate-y-1 transition duration-300">
+                    <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-6 text-xl">
+                        🛡️
+                    </div>
+
+                    <h3 class="text-xl font-semibold text-gray-900 mb-3">
+                        Advanced Security
+                    </h3>
+
+                    <p class="text-gray-600 text-sm leading-relaxed">
+                        Zero-trust architecture ensures strict access control, strong authentication,
+                        and complete protection against data leakage.
+                    </p>
+                </div>
+
+                <!-- CARD 3 -->
+                <div
+                    class="bg-white rounded-[2rem] p-8 shadow-sm hover:shadow-md hover:-translate-y-1 transition duration-300">
+                    <div class="w-12 h-12 bg-pink-100 rounded-full flex items-center justify-center mb-6 text-xl">
+                        🚀
+                    </div>
+
+                    <h3 class="text-xl font-semibold text-gray-900 mb-3">
+                        Work From Anywhere
+                    </h3>
+
+                    <p class="text-gray-600 text-sm leading-relaxed">
+                        Enable employees to securely work from any device without VPN complexity,
+                        while maintaining seamless performance.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+
     <!-- FAQ Section -->
     <section class="bg-white py-24">
         <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-start">
@@ -443,6 +519,51 @@
                 });
             }
 
+            /* =========================
+   OFFER SLIDER
+========================= */
+            const offerSlider = document.getElementById("offer-slider");
+            const offerPrev = document.getElementById("offer-prev");
+            const offerNext = document.getElementById("offer-next");
+
+            let offerIndex = 0;
+
+            function offerVisible() {
+                return window.innerWidth >= 768 ? 3 : 1;
+            }
+
+            function offerMaxIndex() {
+                const total = offerSlider.children.length;
+                return total - offerVisible();
+            }
+
+            function updateOffer() {
+                const shift = 100 / offerVisible();
+                offerSlider.style.transform = `translateX(-${offerIndex * shift}%)`;
+            }
+
+            offerNext.addEventListener("click", () => {
+                if (offerIndex < offerMaxIndex()) {
+                    offerIndex++;
+                    updateOffer();
+                }
+            });
+
+            offerPrev.addEventListener("click", () => {
+                if (offerIndex > 0) {
+                    offerIndex--;
+                    updateOffer();
+                }
+            });
+
+            window.addEventListener("resize", () => {
+                if (offerIndex > offerMaxIndex()) {
+                    offerIndex = offerMaxIndex();
+                }
+                updateOffer();
+            });
+
+            updateOffer();
 
             /* =========================
             FAQ ACCORDION
