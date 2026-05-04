@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact Us | CACHATTO</title>
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        .animate-scroll {
+            animation: scroll 45s linear infinite;
+        }
+
+        /* Products dropdown */
+        .nav-products {
+            position: relative;
+        }
+
+        .nav-products-btn {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            color: #4b5563;
+            font-weight: 500;
+            border: none;
+            background: none;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: color 0.18s;
+        }
+
+        .nav-products:hover .nav-products-btn {
+            color: #2563eb;
+        }
+
+        .chevron {
+            width: 14px;
+            height: 14px;
+            color: #9ca3af;
+            transition: transform 0.25s ease;
+        }
+
+        .nav-products:hover .chevron {
+            transform: rotate(180deg);
+            color: #2563eb;
+        }
+
+        .dropdown-panel {
+            position: absolute;
+            top: calc(100% + 14px);
+            left: 50%;
+            transform: translateX(-50%) translateY(-6px);
+            width: 220px;
+            background: rgba(255, 255, 255, 0.55);
+            backdrop-filter: blur(18px) saturate(180%);
+            -webkit-backdrop-filter: blur(18px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.45);
+            border-radius: 16px;
+            box-shadow:
+                0 8px 32px rgba(0, 0, 0, 0.10),
+                0 1.5px 0px rgba(255, 255, 255, 0.7) inset;
+            padding: 6px;
+            opacity: 0;
+            pointer-events: none;
+            visibility: hidden;
+            transition: opacity 0.22s ease, transform 0.22s ease, visibility 0.22s;
+            z-index: 100;
+        }
+
+        .dropdown-panel::before {
+            content: '';
+            position: absolute;
+            top: -14px;
+            left: 0;
+            right: 0;
+            height: 14px;
+        }
+
+        .nav-products:hover .dropdown-panel {
+            opacity: 1;
+            pointer-events: auto;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 10px 14px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #1e3a5f;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: background 0.15s, color 0.15s;
+        }
+
+        .dropdown-item:hover {
+            background: rgba(37, 99, 235, 0.08);
+            color: #1d4ed8;
+        }
+
+        .dropdown-divider {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.5);
+            margin: 4px 14px;
+        }
+
+        /* Logo Rendering Fix */
+        .logo {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .logo img {
+            height: 40px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        @media (max-width: 768px) {
+            .logo img {
+                height: 32px;
+            }
+        }
+
+        /* Mobile Menu Stacking & Overlay */
+        .navbar {
+            z-index: 1000;
+        }
+
+        body.menu-open {
+            overflow: hidden;
+        }
+
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%;
+            max-width: 100%;
+            height: 100vh;
+            z-index: 1001;
+            background: #ffffff;
+            overflow-y: auto;
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .mobile-menu.menu-active {
+            transform: translateX(0);
+        }
+
+        .menu-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 990;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .menu-overlay.overlay-active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Glassmorphism */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(12px) saturate(180%);
+            -webkit-backdrop-filter: blur(12px) saturate(180%);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Input Glass style */
+        .glass-input {
+            background: rgba(255, 255, 255, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(4px);
+            transition: all 0.3s ease;
+        }
+
+        .glass-input:focus {
+            background: rgba(255, 255, 255, 0.8);
+            border-color: #3b82f6;
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+        }
+    </style>
+</head>
+
+<body class="bg-[#F8FAFC] text-gray-900 antialiased overflow-x-hidden">
+
+    <!-- Header (Shared) -->
+    <header class="fixed top-0 left-0 w-full bg-white/80 backdrop-blur-md shadow-sm navbar">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+
+            <!-- Logo -->
+            <div class="logo">
+                <a href="/index.html">
+                    <img src="Assets/logos/CACHATTO-blue.svg" alt="CACHATTO" />
+                </a>
+            </div>
+
+            <!-- Desktop Nav -->
+            <nav class="hidden md:flex space-x-8 text-gray-600 font-medium">
+                <a href="/index.html" class="hover:text-blue-600">Home</a>
+                <a href="/about.html" class="hover:text-blue-600">About Us</a>
+                <a href="#" class="hover:text-blue-600">Solutions</a>
+                <div class="nav-products">
+                    <button class="nav-products-btn">
+                        Products
+                        <svg class="chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 6l4 4 4-4" />
+                        </svg>
+                    </button>
+
+                    <div class="dropdown-panel">
+                        <a href="/cachatto-one.html" class="dropdown-item">CACHATTO One</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="/ninja-connect-telework.html" class="dropdown-item">Ninja Connect Telework</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="/ninja-connect-ism.html" class="dropdown-item">Ninja Connect ISM</a>
+                    </div>
+                </div>
+                <a href="#" class="hover:text-blue-600">Resources</a>
+                <a href="career.html" class="hover:text-blue-600">Career</a>
+                <a href="/contact.html" class="text-blue-600 font-bold">Contact</a>
+            </nav>
+
+            <!-- CTA (Desktop) -->
+            <div class="hidden md:flex">
+                <a href="#"
+                    class="bg-blue-600 text-white px-5 py-2 rounded-full font-medium hover:bg-blue-500 transition shadow-sm">
+                    Book a demo →
+                </a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button id="menu-btn" class="md:hidden text-gray-700 focus:outline-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+
+        </div>
+
+        <!-- Mobile Menu Overlay -->
+        <div id="mobile-menu" class="mobile-menu hidden flex-col">
+            <div class="flex items-center justify-between px-6 py-4 border-b">
+                <div class="logo">
+                    <img src="Assets/logos/CACHATTO-blue.svg" alt="CACHATTO" />
+                </div>
+                <button id="close-btn" class="text-gray-700">✕</button>
+            </div>
+            <nav class="flex flex-col px-6 py-6 space-y-6 text-lg text-gray-800 font-medium overflow-y-auto">
+                <a href="/index.html">Home</a>
+                <a href="/about.html">About Us</a>
+                <a href="#">Solutions</a>
+                <div>
+                    <button id="mobile-products-btn" class="flex items-center justify-between w-full text-left">
+                        Products
+                        <svg id="mobile-chevron" class="w-4 h-4 text-gray-400 transition-transform duration-200"
+                            viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 6l4 4 4-4" />
+                        </svg>
+                    </button>
+                    <div id="mobile-products-sub" class="hidden mt-4 ml-3 space-y-3 border-l-2 border-blue-100 pl-4">
+                        <a href="/cachatto-one.html" class="block text-base text-gray-600 hover:text-blue-600">CACHATTO
+                            One</a>
+                        <a href="/ninja-connect-telework.html" class="block text-base text-gray-600">Ninja Connect
+                            Telework</a>
+                        <a href="/ninja-connect-ism.html"
+                            class="block text-base text-gray-600 hover:text-blue-600">Ninja Connect ISM</a>
+                    </div>
+                </div>
+                <a href="#">Resources</a>
+                <a href="career.html">Career</a>
+                <a href="/contact.html" class="text-blue-600 font-bold">Contact</a>
+                <a href="#" class="mt-6 bg-blue-600 text-white px-6 py-3 rounded-full text-center">
+                    Book a demo →
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="pt-32 pb-16">
+
+        <!-- Contact Section -->
+        <section class="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
+
+            <!-- Left Side: Content Inspiration from Zaplytic -->
+            <div class="relative">
+                <!-- Decorative background elements -->
+                <div
+                    class="absolute -top-20 -left-20 w-64 h-64 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse">
+                </div>
+                <div
+                    class="absolute -bottom-20 right-20 w-64 h-64 bg-indigo-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse delay-700">
+                </div>
+
+                <div class="relative">
+                    <span
+                        class="inline-block px-4 py-1.5 rounded-full bg-blue-50 text-blue-600 text-sm font-bold tracking-wide uppercase mb-6 border border-blue-100">
+                        Get in Touch
+                    </span>
+                    <h1 class="text-5xl md:text-7xl font-extrabold text-gray-900 leading-tight mb-8">
+                        Let's start a <br />
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-400">project
+                            together</span>
+                    </h1>
+                    <p class="text-gray-600 text-lg md:text-xl leading-relaxed mb-10 max-w-xl">
+                        Fill out the form to request a product overview, demo, or to ask our enterprise security
+                        specialists about the right architecture for your organization.
+                    </p>
+
+                    <!-- Contact Details -->
+                    <div class="space-y-8">
+                        <div class="flex items-start gap-5">
+                            <div
+                                class="w-12 h-12 rounded-2xl bg-white shadow-sm border border-gray-100 flex items-center justify-center shrink-0">
+                                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+                                    </path>
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-bold text-gray-400 uppercase tracking-widest mb-1">Email us</h4>
+                                <p class="text-xl font-bold text-gray-900">sales-india@cachatto.com</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-5">
+                            <div
+                                class="w-12 h-12 rounded-2xl bg-white shadow-sm border border-gray-100 flex items-center justify-center shrink-0">
+                                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
+                                    </path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-bold text-gray-400 uppercase tracking-widest mb-1">Our Location
+                                </h4>
+                                <p class="text-xl font-bold text-gray-900 leading-snug">
+                                    CACHATTO India Pvt, Ltd. <br />
+                                    Prestige Blue Chip, Bangalore, India
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side: Glassmorphic Form -->
+            <div class="lg:pl-8">
+                <div class="glass-card p-8 md:p-10 rounded-[32px] relative overflow-hidden">
+                    <!-- Subtle Form Heading (Mobile Only) -->
+                    <h2 class="text-2xl font-bold text-gray-900 mb-8 lg:hidden">Send us a message</h2>
+
+                    <form action="#" class="space-y-6">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <!-- Full Name -->
+                            <div class="space-y-2">
+                                <label for="name" class="text-sm font-semibold text-gray-700 ml-1">Full Name</label>
+                                <input type="text" id="name" placeholder="John Doe" required
+                                    class="w-full px-6 py-4 rounded-2xl glass-input text-gray-900 placeholder:text-gray-400">
+                            </div>
+                            <!-- Email Address -->
+                            <div class="space-y-2">
+                                <label for="email" class="text-sm font-semibold text-gray-700 ml-1">Email
+                                    Address</label>
+                                <input type="email" id="email" placeholder="john@company.com" required
+                                    class="w-full px-6 py-4 rounded-2xl glass-input text-gray-900 placeholder:text-gray-400">
+                            </div>
+                        </div>
+
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <!-- Company Name -->
+                            <div class="space-y-2">
+                                <label for="company" class="text-sm font-semibold text-gray-700 ml-1">Company
+                                    Name</label>
+                                <input type="text" id="company" placeholder="Acme Corp" required
+                                    class="w-full px-6 py-4 rounded-2xl glass-input text-gray-900 placeholder:text-gray-400">
+                            </div>
+                            <!-- Department Name -->
+                            <div class="space-y-2">
+                                <label for="department" class="text-sm font-semibold text-gray-700 ml-1">Department
+                                    Name</label>
+                                <input type="text" id="department" placeholder="IT / Security"
+                                    class="w-full px-6 py-4 rounded-2xl glass-input text-gray-900 placeholder:text-gray-400">
+                            </div>
+                        </div>
+
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <!-- Mobile Number -->
+                            <div class="space-y-2">
+                                <label for="phone" class="text-sm font-semibold text-gray-700 ml-1">Mobile
+                                    Number</label>
+                                <input type="tel" id="phone" placeholder="+91 98765 43210" required
+                                    class="w-full px-6 py-4 rounded-2xl glass-input text-gray-900 placeholder:text-gray-400">
+                            </div>
+                            <!-- Discovery Source -->
+                            <div class="space-y-2">
+                                <label for="source" class="text-sm font-semibold text-gray-700 ml-1">How did you hear
+                                    about us?</label>
+                                <select id="source" required
+                                    class="w-full px-6 py-4 rounded-2xl glass-input text-gray-900 appearance-none bg-no-repeat bg-[right_1.5rem_center] bg-[length:1rem] cursor-pointer">
+                                    <option value="" disabled selected>Select an option</option>
+                                    <option value="search">Search Engine</option>
+                                    <option value="social">Social Media</option>
+                                    <option value="referral">Referral / Colleague</option>
+                                    <option value="event">Event / Webinar</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Questions/Requests -->
+                        <div class="space-y-2">
+                            <label for="message" class="text-sm font-semibold text-gray-700 ml-1">Questions /
+                                Requests</label>
+                            <textarea id="message" rows="4" placeholder="Tell us about your security needs..." required
+                                class="w-full px-6 py-4 rounded-2xl glass-input text-gray-900 placeholder:text-gray-400 resize-none"></textarea>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="pt-4">
+                            <button type="submit"
+                                class="w-full bg-blue-600 text-white font-bold py-5 rounded-2xl hover:bg-blue-700 transition-colors">
+                                Send Message
+                            </button>
+                        </div>
+
+                        <p class="text-center text-xs text-gray-500 mt-6">
+                            By clicking "Send Message", you agree to our <a href="#" class="underline">Privacy
+                                Policy</a> and <a href="#" class="underline">Terms of Use</a>.
+                        </p>
+                    </form>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Partner Section (Marquee from Home page) -->
+        <section class="mt-24 pt-24 border-t border-gray-100">
+            <div class="max-w-7xl mx-auto px-6">
+                <p class="text-center text-sm font-bold text-gray-400 uppercase tracking-widest mb-12">
+                    Trusted by 1000+ security-conscious enterprises
+                </p>
+
+                <div class="relative overflow-hidden py-8">
+                    <!-- Fade Gradients -->
+                    <div
+                        class="pointer-events-none absolute left-0 top-0 h-full w-32 bg-gradient-to-r from-[#F8FAFC] to-transparent z-10">
+                    </div>
+                    <div
+                        class="pointer-events-none absolute right-0 top-0 h-full w-32 bg-gradient-to-l from-[#F8FAFC] to-transparent z-10">
+                    </div>
+
+                    <!-- Scrolling Logos -->
+                    <div class="animate-scroll flex space-x-20 items-center w-max">
+                        <!-- Set 1 -->
+                        <img src="Assets/images/partners/logo_nri-secure.png"
+                            class="h-10 opacity-50 grayscale hover:opacity-100 hover:grayscale-0 transition cursor-pointer">
+                        <img src="Assets/images/partners/logo_opt.png"
+                            class="h-10 opacity-50 grayscale hover:opacity-100 hover:grayscale-0 transition cursor-pointer">
+                        <img src="Assets/images/partners/logo_solnet.png"
+                            class="h-10 opacity-50 grayscale hover:opacity-100 hover:grayscale-0 transition cursor-pointer">
+                        <img src="Assets/images/partners/logo_belldata.png"
+                            class="h-10 opacity-50 grayscale hover:opacity-100 hover:grayscale-0 transition cursor-pointer">
+                        <img src="Assets/images/partners/logo_ricoh-japan.png"
+                            class="h-10 opacity-50 grayscale hover:opacity-100 hover:grayscale-0 transition cursor-pointer">
+                        <img src="Assets/images/partners/logo_panasonic.png"
+                            class="h-10 opacity-50 grayscale hover:opacity-100 hover:grayscale-0 transition cursor-pointer">
+                        <img src="Assets/images/partners/logo_docomo.png"
+                            class="h-10 opacity-50 grayscale hover:opacity-100 hover:grayscale-0 transition cursor-pointer">
+                        <img src="Assets/images/partners/logo_kddi.png"
+                            class="h-10 opacity-50 grayscale hover:opacity-100 hover:grayscale-0 transition cursor-pointer">
+                        <img src="Assets/images/partners/logo_softbank.png"
+                            class="h-10 opacity-50 grayscale hover:opacity-100 hover:grayscale-0 transition cursor-pointer">
+                        <img src="Assets/images/partners/logo_agrex.png"
+                            class="h-10 opacity-50 grayscale hover:opacity-100 hover:grayscale-0 transition cursor-pointer">
+
+                        <!-- Set 2 (Identical for loop) -->
+                        <img src="Assets/images/partners/logo_nri-secure.png"
+                            class="h-10 opacity-50 grayscale hover:opacity-100 hover:grayscale-0 transition cursor-pointer">
+                        <img src="Assets/images/partners/logo_opt.png"
+                            class="h-10 opacity-50 grayscale hover:opacity-100 hover:grayscale-0 transition cursor-pointer">
+                        <img src="Assets/images/partners/logo_solnet.png"
+                            class="h-10 opacity-50 grayscale hover:opacity-100 hover:grayscale-0 transition cursor-pointer">
+                        <img src="Assets/images/partners/logo_belldata.png"
+                            class="h-10 opacity-50 grayscale hover:opacity-100 hover:grayscale-0 transition cursor-pointer">
+                        <img src="Assets/images/partners/logo_ricoh-japan.png"
+                            class="h-10 opacity-50 grayscale hover:opacity-100 hover:grayscale-0 transition cursor-pointer">
+                        <img src="Assets/images/partners/logo_panasonic.png"
+                            class="h-10 opacity-50 grayscale hover:opacity-100 hover:grayscale-0 transition cursor-pointer">
+                        <img src="Assets/images/partners/logo_docomo.png"
+                            class="h-10 opacity-50 grayscale hover:opacity-100 hover:grayscale-0 transition cursor-pointer">
+                        <img src="Assets/images/partners/logo_kddi.png"
+                            class="h-10 opacity-50 grayscale hover:opacity-100 hover:grayscale-0 transition cursor-pointer">
+                        <img src="Assets/images/partners/logo_softbank.png"
+                            class="h-10 opacity-50 grayscale hover:opacity-100 hover:grayscale-0 transition cursor-pointer">
+                        <img src="Assets/images/partners/logo_agrex.png"
+                            class="h-10 opacity-50 grayscale hover:opacity-100 hover:grayscale-0 transition cursor-pointer">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="bg-white py-24 mt-16">
+            <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-start">
+
+                <!-- LEFT SIDE -->
+                <div>
+                    <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+                        Frequently asked questions
+                    </h2>
+
+                    <p class="text-gray-500 text-lg mb-10 max-w-md">
+                        Everything you need to know about CACHATTO. Can’t find the answer you’re looking for? Feel free
+                        to
+                        reach out.
+                    </p>
+
+                    <a href="/contact.html"
+                        class="inline-flex items-center bg-gray-800 text-white px-6 py-3 rounded-full font-medium hover:bg-blue-600 transition">
+                        Get in touch →
+                    </a>
+                </div>
+
+                <!-- RIGHT SIDE (ACCORDION) -->
+                <div class="space-y-6">
+
+                    <!-- ITEM -->
+                    <div class="border-b border-gray-200 pb-6">
+                        <button class="faq-btn flex justify-between items-center w-full text-left">
+                            <span class="text-lg font-semibold text-gray-900">
+                                Does CACHATTO offer a free trial period?
+                            </span>
+                            <span class="faq-icon text-2xl font-light">+</span>
+                        </button>
+
+                        <div class="faq-content mt-4 text-gray-600 leading-relaxed hidden">
+                            Yes, CACHATTO offers a trial period so enterprises can evaluate secure remote access
+                            capabilities before full deployment.
+                        </div>
+                    </div>
+
+                    <!-- ITEM -->
+                    <div class="border-b border-gray-200 pb-6">
+                        <button class="faq-btn flex justify-between items-center w-full text-left">
+                            <span class="text-lg font-semibold text-gray-900">
+                                What payment methods do you offer?
+                            </span>
+                            <span class="faq-icon text-2xl font-light">+</span>
+                        </button>
+
+                        <div class="faq-content mt-4 text-gray-600 hidden">
+                            We support enterprise billing including invoicing, bank transfers, and custom contract-based
+                            pricing.
+                        </div>
+                    </div>
+
+                    <!-- ITEM -->
+                    <div class="border-b border-gray-200 pb-6">
+                        <button class="faq-btn flex justify-between items-center w-full text-left">
+                            <span class="text-lg font-semibold text-gray-900">
+                                How can I change or cancel my plan?
+                            </span>
+                            <span class="faq-icon text-2xl font-light">+</span>
+                        </button>
+
+                        <div class="faq-content mt-4 text-gray-600 hidden">
+                            Plans can be modified or cancelled through your account manager or support team depending on
+                            your contract.
+                        </div>
+                    </div>
+
+                    <!-- ITEM -->
+                    <div class="border-b border-gray-200 pb-6">
+                        <button class="faq-btn flex justify-between items-center w-full text-left">
+                            <span class="text-lg font-semibold text-gray-900">
+                                What kind of support am I entitled to?
+                            </span>
+                            <span class="faq-icon text-2xl font-light">+</span>
+                        </button>
+
+                        <div class="faq-content mt-4 text-gray-600 hidden">
+                            Enterprise customers get priority support, onboarding assistance, and dedicated technical
+                            guidance.
+                        </div>
+                    </div>
+
+                    <!-- ITEM -->
+                    <div class="border-b border-gray-200 pb-6">
+                        <button class="faq-btn flex justify-between items-center w-full text-left">
+                            <span class="text-lg font-semibold text-gray-900">
+                                Are you continuously adding new features?
+                            </span>
+                            <span class="faq-icon text-2xl font-light">+</span>
+                        </button>
+
+                        <div class="faq-content mt-4 text-gray-600 hidden">
+                            Yes. We actively improve the platform with security enhancements and enterprise-focused
+                            capabilities.
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer (Shared) -->
+    <footer class="bg-[#0B1F3A] text-gray-400 pt-20 pb-10">
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-4 gap-12">
+            <!-- LEFT -->
+            <div>
+                <h3 class="text-white text-2xl font-semibold mb-4">
+                    <img src="Assets/logos/CACHATTO-white.svg" alt="CACHATTO" class="h-5">
+                </h3>
+                <p class="text-sm leading-relaxed mb-6">
+                    Secure Unified Digital Workspace. Empowering enterprise teams with
+                    zero-trust access, data protection, and scalable security since 2004.
+                </p>
+                <div class="flex space-x-3">
+                    <a href="#"
+                        class="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-blue-600 transition">in</a>
+                    <a href="#"
+                        class="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-blue-600 transition">X</a>
+                    <a href="#"
+                        class="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-blue-600 transition">▶</a>
+                </div>
+            </div>
+
+            <!-- PRODUCTS -->
+            <div>
+                <h4 class="text-white font-semibold mb-4">Products</h4>
+                <ul class="space-y-3 text-sm">
+                    <li><a href="/cachatto-one.html" class="hover:text-white transition">CACHATTO One</a></li>
+                    <li><a href="/ninja-connect-telework.html" class="hover:text-white transition">NinjaConnect
+                            Telework</a></li>
+                    <li><a href="/ninja-connect-ism.html" class="hover:text-white transition">NinjaConnect ISM</a></li>
+                </ul>
+            </div>
+
+            <!-- SOLUTIONS -->
+            <div>
+                <h4 class="text-white font-semibold mb-4">Solutions</h4>
+                <ul class="space-y-3 text-sm">
+                    <li><a href="#" class="hover:text-white transition">Remote Work Security</a></li>
+                    <li><a href="#" class="hover:text-white transition">BYOD & Unmanaged Devices</a></li>
+                    <li><a href="#" class="hover:text-white transition">Zero Trust Access</a></li>
+                    <li><a href="#" class="hover:text-white transition">IT-OT Security</a></li>
+                </ul>
+            </div>
+
+            <!-- COMPANY -->
+            <div>
+                <h4 class="text-white font-semibold mb-4">Company</h4>
+                <ul class="space-y-3 text-sm">
+                    <li><a href="/about.html" class="hover:text-white transition">About Us</a></li>
+                    <li><a href="#" class="hover:text-white transition">Customers</a></li>
+                    <li><a href="#" class="hover:text-white transition">Partners</a></li>
+                    <li><a href="/contact.html" class="text-white font-bold transition">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Divider -->
+        <div
+            class="max-w-7xl mx-auto px-6 mt-16 border-t border-white/10 pt-6 flex flex-col md:flex-row justify-between items-center text-sm">
+            <p>© 2026 CACHATTO India Pvt, Ltd. All rights reserved.</p>
+            <div class="flex space-x-6 mt-4 md:mt-0">
+                <a href="#" class="hover:text-white transition">Privacy Policy</a>
+                <a href="#" class="hover:text-white transition">Terms of Use</a>
+                <a href="#" class="hover:text-white transition">Cookie Settings</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const btn = document.getElementById('menu-btn');
+            const closeBtn = document.getElementById('close-btn');
+            const menu = document.getElementById('mobile-menu');
+
+            // Create overlay dynamically
+            let overlay = document.querySelector('.menu-overlay');
+            if (!overlay && menu) {
+                overlay = document.createElement('div');
+                overlay.className = 'menu-overlay hidden';
+                document.body.appendChild(overlay);
+            }
+
+            function openMenu() {
+                if (menu && overlay) {
+                    menu.classList.remove('hidden');
+                    menu.classList.add('flex');
+                    overlay.classList.remove('hidden');
+
+                    // Small delay to allow display: flex to apply before animating
+                    setTimeout(() => {
+                        menu.classList.add('menu-active');
+                        overlay.classList.add('overlay-active');
+                    }, 10);
+
+                    document.body.classList.add('menu-open');
+                }
+            }
+
+            function closeMenu() {
+                if (menu && overlay) {
+                    menu.classList.remove('menu-active');
+                    overlay.classList.remove('overlay-active');
+                    document.body.classList.remove('menu-open');
+
+                    // Wait for transition to finish before hiding
+                    setTimeout(() => {
+                        menu.classList.add('hidden');
+                        menu.classList.remove('flex');
+                        overlay.classList.add('hidden');
+                    }, 300);
+                }
+            }
+
+            if (btn && closeBtn) {
+                btn.addEventListener('click', openMenu);
+                closeBtn.addEventListener('click', closeMenu);
+                if (overlay) overlay.addEventListener('click', closeMenu);
+            }
+
+            // Mobile Products accordion
+            const mobileProductsBtn = document.getElementById('mobile-products-btn');
+            if (mobileProductsBtn) {
+                mobileProductsBtn.addEventListener('click', () => {
+                    const sub = document.getElementById('mobile-products-sub');
+                    const chevron = document.getElementById('mobile-chevron');
+                    if (sub && chevron) {
+                        const isHidden = sub.classList.contains('hidden');
+
+                        if (isHidden) {
+                            sub.classList.remove('hidden');
+                            sub.style.maxHeight = '0px';
+                            sub.style.overflow = 'hidden';
+                            sub.style.transition = 'max-height 0.3s ease-out';
+
+                            // trigger reflow
+                            void sub.offsetWidth;
+
+                            sub.style.maxHeight = sub.scrollHeight + 'px';
+                            chevron.style.transform = 'rotate(180deg)';
+
+                            // cleanup max-height after animation
+                            setTimeout(() => {
+                                sub.style.maxHeight = 'none';
+                                sub.style.overflow = 'visible';
+                            }, 300);
+                        } else {
+                            sub.style.maxHeight = sub.scrollHeight + 'px';
+                            sub.style.overflow = 'hidden';
+
+                            // trigger reflow
+                            void sub.offsetWidth;
+
+                            sub.style.maxHeight = '0px';
+                            chevron.style.transform = '';
+
+                            setTimeout(() => {
+                                sub.classList.add('hidden');
+                                sub.style.maxHeight = '';
+                                sub.style.overflow = 'visible';
+                            }, 300);
+                        }
+                    }
+                });
+            }
+
+            /* =========================
+            FAQ ACCORDION
+            ========================= */
+            const faqButtons = document.querySelectorAll(".faq-btn");
+
+            // Setup smooth transitions
+            document.querySelectorAll(".faq-content").forEach(content => {
+                content.classList.remove("hidden");
+                content.style.maxHeight = "0";
+                content.style.overflow = "hidden";
+                content.style.transition = "max-height 0.3s ease-out, opacity 0.3s ease-out, margin-top 0.3s ease-out";
+                content.style.opacity = "0";
+                content.style.marginTop = "0";
+            });
+
+            document.querySelectorAll(".faq-icon").forEach(icon => {
+                icon.style.transition = "transform 0.3s ease";
+                icon.style.display = "inline-block";
+                icon.textContent = "+"; // ensure it's plus initially
+            });
+
+            faqButtons.forEach((btn) => {
+                btn.addEventListener("click", () => {
+                    const content = btn.nextElementSibling;
+                    const icon = btn.querySelector(".faq-icon");
+
+                    const isOpen = content.style.maxHeight !== "0px" && content.style.maxHeight !== "0";
+
+                    // Close all
+                    document.querySelectorAll(".faq-content").forEach(c => {
+                        c.style.maxHeight = "0";
+                        c.style.opacity = "0";
+                        c.style.marginTop = "0";
+                    });
+                    document.querySelectorAll(".faq-icon").forEach(i => {
+                        i.style.transform = "rotate(0deg)";
+                    });
+
+                    // Open current
+                    if (!isOpen) {
+                        content.style.marginTop = "1rem"; // mt-4 equivalent
+                        content.style.maxHeight = (content.scrollHeight + 16) + "px"; // add margin
+                        content.style.opacity = "1";
+                        icon.style.transform = "rotate(45deg)";
+                    }
+                });
+            });
+
+        });
+    </script>
+</body>
+
+</html>

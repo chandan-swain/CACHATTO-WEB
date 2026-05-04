@@ -142,7 +142,7 @@
                     </div>
                 </div> <a href="#" class="hover:text-blue-600">Resources</a>
                 <a href="career.html" class="hover:text-blue-600">Career</a>
-                <a href="#" class="hover:text-blue-600">Contact</a>
+                <a href="/contact.html" class="hover:text-blue-600">Contact</a>
             </nav>
 
             <!-- CTA (Desktop) -->
@@ -201,7 +201,7 @@
                 </div>
                 <a href="#">Resources</a>
                 <a href="career.html">Career</a>
-                <a href="#">Contact</a>
+                <a href="/contact.html">Contact</a>
 
                 <a href="#" class="mt-6 bg-blue-600 text-white px-6 py-3 rounded-full text-center">
                     Book a demo →
@@ -871,7 +871,7 @@
                     <li><a href="/about.html" class="hover:text-white transition">About Us</a></li>
                     <li><a href="#" class="hover:text-white transition">Customers</a></li>
                     <li><a href="#" class="hover:text-white transition">Partners</a></li>
-                    <li><a href="#" class="hover:text-white transition">Contact</a></li>
+                    <li><a href="/contact.html" class="hover:text-white transition">Contact</a></li>
                 </ul>
             </div>
 
@@ -1005,20 +1005,51 @@
 
             faqButtons.forEach((btn) => {
                 btn.addEventListener("click", () => {
-
                     const content = btn.nextElementSibling;
                     const icon = btn.querySelector(".faq-icon");
-
-                    const isOpen = !content.classList.contains("hidden");
+                    
+                    // Add smooth transition to icon if not already there
+                    icon.style.transition = "transform 0.3s ease";
+                    
+                    const isOpen = !content.classList.contains("hidden") && content.style.maxHeight !== '0px';
 
                     // Close all
-                    document.querySelectorAll(".faq-content").forEach(c => c.classList.add("hidden"));
-                    document.querySelectorAll(".faq-icon").forEach(i => i.textContent = "+");
+                    document.querySelectorAll(".faq-content").forEach(c => {
+                        if (!c.classList.contains("hidden")) {
+                            c.style.maxHeight = c.scrollHeight + "px";
+                            c.style.overflow = "hidden";
+                            // Trigger reflow
+                            void c.offsetWidth;
+                            c.style.maxHeight = "0px";
+                            setTimeout(() => {
+                                c.classList.add("hidden");
+                                c.style.maxHeight = "";
+                                c.style.overflow = "visible";
+                            }, 300);
+                        }
+                    });
+                    
+                    document.querySelectorAll(".faq-icon").forEach(i => {
+                        i.style.transform = "rotate(0deg)";
+                    });
 
                     // Open current
                     if (!isOpen) {
                         content.classList.remove("hidden");
-                        icon.textContent = "×";
+                        content.style.maxHeight = "0px";
+                        content.style.overflow = "hidden";
+                        content.style.transition = "max-height 0.3s ease-out";
+                        
+                        // Trigger reflow
+                        void content.offsetWidth;
+                        
+                        content.style.maxHeight = content.scrollHeight + "px";
+                        icon.style.transform = "rotate(45deg)";
+                        
+                        setTimeout(() => {
+                            content.style.maxHeight = "none";
+                            content.style.overflow = "visible";
+                        }, 300);
                     }
                 });
             });

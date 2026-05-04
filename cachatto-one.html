@@ -190,7 +190,7 @@
 
                 <a href="#" class="hover:text-blue-600">Resources</a>
                 <a href="career.html" class="hover:text-blue-600">Career</a>
-                <a href="#" class="hover:text-blue-600">Contact</a>
+                <a href="/contact.html" class="hover:text-blue-600">Contact</a>
             </nav>
 
             <div class="hidden md:flex">
@@ -235,7 +235,7 @@
                 </div>
                 <a href="#">Resources</a>
                 <a href="career.html">Career</a>
-                <a href="#">Contact</a>
+                <a href="/contact.html">Contact</a>
                 <a href="#" class="mt-6 bg-blue-600 text-white px-6 py-3 rounded-full text-center">Book a demo →</a>
             </nav>
         </div>
@@ -1018,6 +1018,87 @@
     </main>
 
 
+    <!-- FAQ Section (Unified Style) -->
+    <section class="bg-white py-24">
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-start">
+            <!-- LEFT SIDE -->
+            <div>
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+                    Frequently asked questions
+                </h2>
+                <p class="text-gray-500 text-lg mb-10 max-w-md">
+                    Everything you need to know about CACHATTO One. Can’t find the answer you’re looking for? Feel free to reach out.
+                </p>
+                <a href="/contact.html" class="inline-flex items-center bg-gray-800 text-white px-6 py-3 rounded-full font-medium hover:bg-blue-600 transition">
+                    Get in touch →
+                </a>
+            </div>
+            <!-- RIGHT SIDE (ACCORDION) -->
+            <div class="space-y-6">
+                <!-- ITEM -->
+                <div class="border-b border-gray-200 pb-6">
+                    <button class="faq-btn flex justify-between items-center w-full text-left">
+                        <span class="text-lg font-semibold text-gray-900">
+                            What is CACHATTO One?
+                        </span>
+                        <span class="faq-icon text-2xl font-light">+</span>
+                    </button>
+                    <div class="faq-content mt-4 text-gray-600 leading-relaxed hidden">
+                        CACHATTO One is a hybrid work platform that integrates and manages multiple types of PC-based business tools on the cloud for secure, flexible remote work.
+                    </div>
+                </div>
+                <!-- ITEM -->
+                <div class="border-b border-gray-200 pb-6">
+                    <button class="faq-btn flex justify-between items-center w-full text-left">
+                        <span class="text-lg font-semibold text-gray-900">
+                            What business tools are included?
+                        </span>
+                        <span class="faq-icon text-2xl font-light">+</span>
+                    </button>
+                    <div class="faq-content mt-4 text-gray-600 leading-relaxed hidden">
+                        CACHATTO One includes secure browser, remote desktop, NinjaConnect VPN, DLP, MFA, and IDaaS, all managed from a unified cloud platform.
+                    </div>
+                </div>
+                <!-- ITEM -->
+                <div class="border-b border-gray-200 pb-6">
+                    <button class="faq-btn flex justify-between items-center w-full text-left">
+                        <span class="text-lg font-semibold text-gray-900">
+                            How does CACHATTO One ensure security?
+                        </span>
+                        <span class="faq-icon text-2xl font-light">+</span>
+                    </button>
+                    <div class="faq-content mt-4 text-gray-600 leading-relaxed hidden">
+                        Security is ensured through multi-factor authentication (MFA), data loss prevention (DLP), zero-trust architecture, and secure communication protocols.
+                    </div>
+                </div>
+                <!-- ITEM -->
+                <div class="border-b border-gray-200 pb-6">
+                    <button class="faq-btn flex justify-between items-center w-full text-left">
+                        <span class="text-lg font-semibold text-gray-900">
+                            Can I use CACHATTO One on any device?
+                        </span>
+                        <span class="faq-icon text-2xl font-light">+</span>
+                    </button>
+                    <div class="faq-content mt-4 text-gray-600 leading-relaxed hidden">
+                        Yes, CACHATTO One supports Windows, iOS, Android, and web access, enabling secure work from any device, anywhere.
+                    </div>
+                </div>
+                <!-- ITEM -->
+                <div class="border-b border-gray-200 pb-6">
+                    <button class="faq-btn flex justify-between items-center w-full text-left">
+                        <span class="text-lg font-semibold text-gray-900">
+                            How do I get started with CACHATTO One?
+                        </span>
+                        <span class="faq-icon text-2xl font-light">+</span>
+                    </button>
+                    <div class="faq-content mt-4 text-gray-600 leading-relaxed hidden">
+                        Contact our team for a demo or trial, and we’ll guide you through setup and deployment for your organization.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- CTA Section (from index.html) -->
     <section class="relative bg-gradient-to-r from-blue-700 to-blue-500 py-24 overflow-hidden">
 
@@ -1115,7 +1196,7 @@
                     <li><a href="#" class="hover:text-white transition">About Us</a></li>
                     <li><a href="#" class="hover:text-white transition">Customers</a></li>
                     <li><a href="#" class="hover:text-white transition">Partners</a></li>
-                    <li><a href="#" class="hover:text-white transition">Contact</a></li>
+                    <li><a href="/contact.html" class="hover:text-white transition">Contact</a></li>
                 </ul>
             </div>
 
@@ -1204,6 +1285,61 @@
                 }
             });
 
+            /* =========================
+               FAQ ACCORDION
+            ========================= */
+            const faqButtons = document.querySelectorAll(".faq-btn");
+
+            faqButtons.forEach((btn) => {
+                btn.addEventListener("click", () => {
+                    const content = btn.nextElementSibling;
+                    const icon = btn.querySelector(".faq-icon");
+                    
+                    // Add smooth transition to icon if not already there
+                    icon.style.transition = "transform 0.3s ease";
+                    
+                    const isOpen = !content.classList.contains("hidden") && content.style.maxHeight !== '0px';
+
+                    // Close all
+                    document.querySelectorAll(".faq-content").forEach(c => {
+                        if (!c.classList.contains("hidden")) {
+                            c.style.maxHeight = c.scrollHeight + "px";
+                            c.style.overflow = "hidden";
+                            // Trigger reflow
+                            void c.offsetWidth;
+                            c.style.maxHeight = "0px";
+                            setTimeout(() => {
+                                c.classList.add("hidden");
+                                c.style.maxHeight = "";
+                                c.style.overflow = "visible";
+                            }, 300);
+                        }
+                    });
+                    
+                    document.querySelectorAll(".faq-icon").forEach(i => {
+                        i.style.transform = "rotate(0deg)";
+                    });
+
+                    // Open current
+                    if (!isOpen) {
+                        content.classList.remove("hidden");
+                        content.style.maxHeight = "0px";
+                        content.style.overflow = "hidden";
+                        content.style.transition = "max-height 0.3s ease-out";
+                        
+                        // Trigger reflow
+                        void content.offsetWidth;
+                        
+                        content.style.maxHeight = content.scrollHeight + "px";
+                        icon.style.transform = "rotate(45deg)";
+                        
+                        setTimeout(() => {
+                            content.style.maxHeight = "none";
+                            content.style.overflow = "visible";
+                        }, 300);
+                    }
+                });
+            });
 </script>
 </body>
 

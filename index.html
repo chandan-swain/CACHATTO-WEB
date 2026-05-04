@@ -118,6 +118,77 @@
             background: rgba(255, 255, 255, 0.5);
             margin: 4px 14px;
         }
+
+        /* Logo Rendering Fix */
+        .logo {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .logo img {
+            height: 40px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        @media (max-width: 768px) {
+            .logo img {
+                height: 32px;
+            }
+        }
+
+        /* Mobile Menu Stacking & Overlay */
+        .navbar {
+            z-index: 1000;
+        }
+
+        body.menu-open {
+            overflow: hidden;
+        }
+
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%;
+            max-width: 100%;
+            height: 100vh;
+            z-index: 1001;
+            background: #ffffff;
+            overflow-y: auto;
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .mobile-menu.menu-active {
+            transform: translateX(0);
+        }
+
+        .menu-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 990;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .menu-overlay.overlay-active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Glassmorphism */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(12px) saturate(180%);
+            -webkit-backdrop-filter: blur(12px) saturate(180%);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+        }
     </style>
 
 </head>
@@ -125,12 +196,12 @@
 <body class="bg-gray-50">
 
     <!-- Header -->
-    <header class="fixed top-0 left-0 w-full bg-white shadow-sm z-50">
+    <header class="fixed top-0 left-0 w-full bg-white shadow-sm navbar">
         <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
 
             <!-- Logo -->
-            <div>
-                <img src="Assets/logos/CACHATTO-blue.svg" alt="CACHATTO" class="h-6" />
+            <div class="logo">
+                <img src="Assets/logos/CACHATTO-blue.svg" alt="CACHATTO" />
             </div>
 
             <!-- Desktop Nav -->
@@ -156,7 +227,7 @@
                     </div>
                 </div> <a href="#" class="hover:text-blue-600">Resources</a>
                 <a href="career.html" class="hover:text-blue-600">Career</a>
-                <a href="#" class="hover:text-blue-600">Contact</a>
+                <a href="/contact.html" class="hover:text-blue-600">Contact</a>
             </nav>
 
             <!-- CTA (Desktop) -->
@@ -179,12 +250,12 @@
         </div>
 
         <!-- Mobile Menu Overlay -->
-        <div id="mobile-menu" class="fixed inset-0 bg-white z-40 hidden flex-col">
+        <div id="mobile-menu" class="mobile-menu hidden flex-col">
 
             <!-- Top Bar (same as header feel) -->
             <div class="flex items-center justify-between px-6 py-4 border-b">
-                <div>
-                    <img src="Assets/logos/cachatto.svg" alt="CACHATTO" class="h-6" />
+                <div class="logo">
+                    <img src="Assets/logos/CACHATTO-blue.svg" alt="CACHATTO" />
                 </div>
 
                 <!-- Close Button -->
@@ -215,7 +286,7 @@
                 </div>
                 <a href="#">Resources</a>
                 <a href="career.html">Career</a>
-                <a href="#">Contact</a>
+                <a href="/contact.html">Contact</a>
 
                 <a href="#" class="mt-6 bg-blue-600 text-white px-6 py-3 rounded-full text-center">
                     Book a demo →
@@ -1039,7 +1110,7 @@
                     reach out.
                 </p>
 
-                <a href="#"
+                <a href="/contact.html"
                     class="inline-flex items-center bg-gray-800 text-white px-6 py-3 rounded-full font-medium hover:bg-blue-600 transition">
                     Get in touch →
                 </a>
@@ -1237,7 +1308,7 @@
                     <li><a href="/about.html" class="hover:text-white transition">About Us</a></li>
                     <li><a href="#" class="hover:text-white transition">Customers</a></li>
                     <li><a href="#" class="hover:text-white transition">Partners</a></li>
-                    <li><a href="#" class="hover:text-white transition">Contact</a></li>
+                    <li><a href="/contact.html" class="hover:text-white transition">Contact</a></li>
                 </ul>
             </div>
 
@@ -1306,25 +1377,95 @@
             const closeBtn = document.getElementById('close-btn');
             const menu = document.getElementById('mobile-menu');
 
-            if (btn && menu && closeBtn) {
-                btn.addEventListener('click', () => {
+            // Create overlay dynamically
+            let overlay = document.querySelector('.menu-overlay');
+            if (!overlay && menu) {
+                overlay = document.createElement('div');
+                overlay.className = 'menu-overlay hidden';
+                document.body.appendChild(overlay);
+            }
+
+            function openMenu() {
+                if (menu && overlay) {
                     menu.classList.remove('hidden');
-                    document.body.classList.add('overflow-hidden');
-                });
+                    menu.classList.add('flex');
+                    overlay.classList.remove('hidden');
+                    
+                    // Small delay to allow display: flex to apply before animating
+                    setTimeout(() => {
+                        menu.classList.add('menu-active');
+                        overlay.classList.add('overlay-active');
+                    }, 10);
+                    
+                    document.body.classList.add('menu-open');
+                }
+            }
 
-                closeBtn.addEventListener('click', () => {
-                    menu.classList.add('hidden');
-                    document.body.classList.remove('overflow-hidden');
-                });
+            function closeMenu() {
+                if (menu && overlay) {
+                    menu.classList.remove('menu-active');
+                    overlay.classList.remove('overlay-active');
+                    document.body.classList.remove('menu-open');
+                    
+                    // Wait for transition to finish before hiding
+                    setTimeout(() => {
+                        menu.classList.add('hidden');
+                        menu.classList.remove('flex');
+                        overlay.classList.add('hidden');
+                    }, 300);
+                }
+            }
 
-                // Mobile Products accordion
-                document.getElementById('mobile-products-btn').addEventListener('click', () => {
-                    const sub = document.getElementById('mobile-products-sub');
-                    const chevron = document.getElementById('mobile-chevron');
-                    const isOpen = !sub.classList.contains('hidden');
-                    sub.classList.toggle('hidden', isOpen);
-                    chevron.style.transform = isOpen ? '' : 'rotate(180deg)';
-                });
+            if (btn && menu && closeBtn) {
+                btn.addEventListener('click', openMenu);
+                closeBtn.addEventListener('click', closeMenu);
+                if (overlay) overlay.addEventListener('click', closeMenu);
+
+                // Mobile Products accordion with smooth animation
+                const mobileProductsBtn = document.getElementById('mobile-products-btn');
+                if (mobileProductsBtn) {
+                    mobileProductsBtn.addEventListener('click', () => {
+                        const sub = document.getElementById('mobile-products-sub');
+                        const chevron = document.getElementById('mobile-chevron');
+                        if (sub && chevron) {
+                            const isHidden = sub.classList.contains('hidden');
+                            
+                            if (isHidden) {
+                                sub.classList.remove('hidden');
+                                sub.style.maxHeight = '0px';
+                                sub.style.overflow = 'hidden';
+                                sub.style.transition = 'max-height 0.3s ease-out';
+                                
+                                // trigger reflow
+                                void sub.offsetWidth;
+                                
+                                sub.style.maxHeight = sub.scrollHeight + 'px';
+                                chevron.style.transform = 'rotate(180deg)';
+                                
+                                // cleanup max-height after animation
+                                setTimeout(() => {
+                                    sub.style.maxHeight = 'none';
+                                    sub.style.overflow = 'visible';
+                                }, 300);
+                            } else {
+                                sub.style.maxHeight = sub.scrollHeight + 'px';
+                                sub.style.overflow = 'hidden';
+                                
+                                // trigger reflow
+                                void sub.offsetWidth;
+                                
+                                sub.style.maxHeight = '0px';
+                                chevron.style.transform = '';
+                                
+                                setTimeout(() => {
+                                    sub.classList.add('hidden');
+                                    sub.style.maxHeight = '';
+                                    sub.style.overflow = 'visible';
+                                }, 300);
+                            }
+                        }
+                    });
+                }
             }
 
             /* =========================
@@ -1437,23 +1578,46 @@
             FAQ ACCORDION
             ========================= */
             const faqButtons = document.querySelectorAll(".faq-btn");
+            
+            // Setup smooth transitions
+            document.querySelectorAll(".faq-content").forEach(content => {
+                content.classList.remove("hidden");
+                content.style.maxHeight = "0";
+                content.style.overflow = "hidden";
+                content.style.transition = "max-height 0.3s ease-out, opacity 0.3s ease-out, margin-top 0.3s ease-out";
+                content.style.opacity = "0";
+                content.style.marginTop = "0";
+            });
+
+            document.querySelectorAll(".faq-icon").forEach(icon => {
+                icon.style.transition = "transform 0.3s ease";
+                icon.style.display = "inline-block";
+                icon.textContent = "+"; // ensure it's plus initially
+            });
 
             faqButtons.forEach((btn) => {
                 btn.addEventListener("click", () => {
-
                     const content = btn.nextElementSibling;
                     const icon = btn.querySelector(".faq-icon");
 
-                    const isOpen = !content.classList.contains("hidden");
+                    const isOpen = content.style.maxHeight !== "0px" && content.style.maxHeight !== "0";
 
                     // Close all
-                    document.querySelectorAll(".faq-content").forEach(c => c.classList.add("hidden"));
-                    document.querySelectorAll(".faq-icon").forEach(i => i.textContent = "+");
+                    document.querySelectorAll(".faq-content").forEach(c => {
+                        c.style.maxHeight = "0";
+                        c.style.opacity = "0";
+                        c.style.marginTop = "0";
+                    });
+                    document.querySelectorAll(".faq-icon").forEach(i => {
+                        i.style.transform = "rotate(0deg)";
+                    });
 
                     // Open current
                     if (!isOpen) {
-                        content.classList.remove("hidden");
-                        icon.textContent = "×";
+                        content.style.marginTop = "1rem"; // mt-4 equivalent
+                        content.style.maxHeight = (content.scrollHeight + 16) + "px"; // add margin
+                        content.style.opacity = "1";
+                        icon.style.transform = "rotate(45deg)";
                     }
                 });
             });
