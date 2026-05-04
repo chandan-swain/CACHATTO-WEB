@@ -177,7 +177,7 @@
                     </div>
                 </div> <a href="#" class="hover:text-blue-600">Resources</a>
                 <a href="career.html" class="hover:text-blue-600">Career</a>
-                <a href="#" class="hover:text-blue-600">Contact</a>
+                <a href="/contact.html" class="hover:text-blue-600">Contact</a>
             </nav>
 
             <!-- CTA (Desktop) -->
@@ -226,7 +226,7 @@
                 </div>
                 <a href="#">Resources</a>
                 <a href="career.html">Career</a>
-                <a href="#">Contact</a>
+                <a href="/contact.html">Contact</a>
                 <a href="#" class="mt-6 bg-blue-600 text-white px-6 py-3 rounded-full text-center">
                     Book a demo →
                 </a>
@@ -583,93 +583,94 @@
         </div>
     </section>
 
-    <!-- FAQs Section -->
-    <section class="bg-slate-50 py-24">
-        <div class="max-w-5xl mx-auto px-6">
-            <div class="text-center mb-16">
-                <div class="inline-flex items-center space-x-2 bg-blue-100 text-blue-700 border border-blue-200 px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase mb-6 shadow-sm">
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    <span>Need Help?</span>
-                </div>
-                <h2 class="text-3xl md:text-5xl font-extrabold text-slate-900 mb-4">FAQs</h2>
-                <p class="text-slate-600 text-lg">Recently Asked Questions</p>
+
+    <!-- FAQ Section (Unified Style) -->
+    <section class="bg-white py-24">
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-start">
+            <!-- LEFT SIDE -->
+            <div>
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+                    Frequently asked questions
+                </h2>
+                <p class="text-gray-500 text-lg mb-10 max-w-md">
+                    Everything you need to know about NinjaConnect ISM. Can’t find the answer you’re looking for? Feel free to reach out.
+                </p>
+                <a href="/contact.html" class="inline-flex items-center bg-gray-800 text-white px-6 py-3 rounded-full font-medium hover:bg-blue-600 transition">
+                    Get in touch →
+                </a>
             </div>
-
-            <div class="grid md:grid-cols-2 gap-4 accordion-container items-start">
-                <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden group">
-                    <button class="w-full text-left px-6 py-5 flex items-center justify-between focus:outline-none faq-btn">
-                        <span class="font-semibold text-slate-800 pr-4">What is NinjaConnect ISM?</span>
-                        <div class="w-6 h-6 rounded-full border border-slate-200 flex items-center justify-center text-slate-400 group-hover:border-blue-400 group-hover:text-blue-600 transition faq-icon">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-                        </div>
+            <!-- RIGHT SIDE (ACCORDION) -->
+            <div class="space-y-6">
+                <!-- ITEM -->
+                <div class="border-b border-gray-200 pb-6">
+                    <button class="faq-btn flex justify-between items-center w-full text-left">
+                        <span class="text-lg font-semibold text-gray-900">
+                            What is NinjaConnect ISM?
+                        </span>
+                        <span class="faq-icon text-2xl font-light">+</span>
                     </button>
-                    <div class="px-6 pb-5 text-slate-600 text-sm leading-relaxed hidden faq-content">
-                        <p>NinjaConnect ISM is a secure IT-OT convergence platform designed to facilitate seamless collaboration between Information Technology (IT) and Operational Technology (OT) while ensuring robust cybersecurity measures.</p>
+                    <div class="faq-content mt-4 text-gray-600 leading-relaxed hidden">
+                        NinjaConnect ISM is a secure IT-OT convergence platform designed to facilitate seamless collaboration between Information Technology (IT) and Operational Technology (OT) while ensuring robust cybersecurity measures.
                     </div>
                 </div>
-
-                <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden group">
-                    <button class="w-full text-left px-6 py-5 flex items-center justify-between focus:outline-none faq-btn">
-                        <span class="font-semibold text-slate-800 pr-4">How does NinjaConnect ISM enhance security?</span>
-                        <div class="w-6 h-6 rounded-full border border-slate-200 flex items-center justify-center text-slate-400 group-hover:border-blue-400 group-hover:text-blue-600 transition faq-icon">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-                        </div>
+                <!-- ITEM -->
+                <div class="border-b border-gray-200 pb-6">
+                    <button class="faq-btn flex justify-between items-center w-full text-left">
+                        <span class="text-lg font-semibold text-gray-900">
+                            How does NinjaConnect ISM enhance security?
+                        </span>
+                        <span class="faq-icon text-2xl font-light">+</span>
                     </button>
-                    <div class="px-6 pb-5 text-slate-600 text-sm leading-relaxed hidden faq-content">
-                        <p>NinjaConnect ISM enhances security through various means:</p>
-                        <ul class="list-disc pl-5 mt-2 space-y-1">
-                            <li><strong>Secure Network Segmentation:</strong> It isolates critical OT assets from potential cyber threats by segmenting the network.</li>
-                            <li><strong>Endpoint Data Leak Prevention (DLP):</strong> Built-in mechanisms monitor and control data transfers at the endpoint level, safeguarding sensitive information.</li>
-                            <li><strong>Robust Security Framework:</strong> Based on NIST CSF, SDP, and Zero-Trust principles, it implements multi-layered security measures, ensuring only authorized access to OT resources.</li>
-                        </ul>
+                    <div class="faq-content mt-4 text-gray-600 leading-relaxed hidden">
+                        NinjaConnect ISM enhances security through network segmentation, endpoint DLP, and a robust security framework based on NIST CSF, SDP, and Zero-Trust principles.
                     </div>
                 </div>
-
-                <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden group">
-                    <button class="w-full text-left px-6 py-5 flex items-center justify-between focus:outline-none faq-btn">
-                        <span class="font-semibold text-slate-800 pr-4">Can I access my OT resources remotely with NinjaConnect ISM?</span>
-                        <div class="w-6 h-6 rounded-full border border-slate-200 flex items-center justify-center text-slate-400 group-hover:border-blue-400 group-hover:text-blue-600 transition faq-icon">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-                        </div>
+                <!-- ITEM -->
+                <div class="border-b border-gray-200 pb-6">
+                    <button class="faq-btn flex justify-between items-center w-full text-left">
+                        <span class="text-lg font-semibold text-gray-900">
+                            Can I access my OT resources remotely with NinjaConnect ISM?
+                        </span>
+                        <span class="faq-icon text-2xl font-light">+</span>
                     </button>
-                    <div class="px-6 pb-5 text-slate-600 text-sm leading-relaxed hidden faq-content">
-                        <p>Yes, NinjaConnect ISM provides seamless and secure remote access to OT resources from anywhere, at any time, and on any device, enabling authorized personnel to manage OT infrastructure effectively.</p>
+                    <div class="faq-content mt-4 text-gray-600 leading-relaxed hidden">
+                        Yes, NinjaConnect ISM provides seamless and secure remote access to OT resources from anywhere, at any time, and on any device.
                     </div>
                 </div>
-
-                <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden group">
-                    <button class="w-full text-left px-6 py-5 flex items-center justify-between focus:outline-none faq-btn">
-                        <span class="font-semibold text-slate-800 pr-4">How does NinjaConnect ISM ensure data backup and recovery?</span>
-                        <div class="w-6 h-6 rounded-full border border-slate-200 flex items-center justify-center text-slate-400 group-hover:border-blue-400 group-hover:text-blue-600 transition faq-icon">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-                        </div>
+                <!-- ITEM -->
+                <div class="border-b border-gray-200 pb-6">
+                    <button class="faq-btn flex justify-between items-center w-full text-left">
+                        <span class="text-lg font-semibold text-gray-900">
+                            How does NinjaConnect ISM ensure data backup and recovery?
+                        </span>
+                        <span class="faq-icon text-2xl font-light">+</span>
                     </button>
-                    <div class="px-6 pb-5 text-slate-600 text-sm leading-relaxed hidden faq-content">
-                        <p>NinjaConnect ISM offers enterprise-grade backup solutions, allowing OT administrators to effortlessly back up machine data and configurations. This facilitates quick recovery in case of system faults or disruptions, minimizing downtime and ensuring continuity of operations.</p>
+                    <div class="faq-content mt-4 text-gray-600 leading-relaxed hidden">
+                        NinjaConnect ISM offers enterprise-grade backup solutions for quick recovery in case of system faults or disruptions.
                     </div>
                 </div>
-
-                <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden group">
-                    <button class="w-full text-left px-6 py-5 flex items-center justify-between focus:outline-none faq-btn">
-                        <span class="font-semibold text-slate-800 pr-4">Is NinjaConnect ISM suitable for my organization's cybersecurity needs?</span>
-                        <div class="w-6 h-6 rounded-full border border-slate-200 flex items-center justify-center text-slate-400 group-hover:border-blue-400 group-hover:text-blue-600 transition faq-icon">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-                        </div>
+                <!-- ITEM -->
+                <div class="border-b border-gray-200 pb-6">
+                    <button class="faq-btn flex justify-between items-center w-full text-left">
+                        <span class="text-lg font-semibold text-gray-900">
+                            Is NinjaConnect ISM suitable for my organization's cybersecurity needs?
+                        </span>
+                        <span class="faq-icon text-2xl font-light">+</span>
                     </button>
-                    <div class="px-6 pb-5 text-slate-600 text-sm leading-relaxed hidden faq-content">
-                        <p>Absolutely! NinjaConnect ISM is designed to meet the cybersecurity needs of various industries and organizations. Whether you’re in manufacturing, healthcare, energy, or any other sector, our platform provides the necessary tools and features to safeguard your IT and OT environments effectively.</p>
+                    <div class="faq-content mt-4 text-gray-600 leading-relaxed hidden">
+                        Absolutely! NinjaConnect ISM is designed to meet the cybersecurity needs of various industries and organizations.
                     </div>
                 </div>
-
-                <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden group">
-                    <button class="w-full text-left px-6 py-5 flex items-center justify-between focus:outline-none faq-btn">
-                        <span class="font-semibold text-slate-800 pr-4">How can I get started with NinjaConnect ISM?</span>
-                        <div class="w-6 h-6 rounded-full border border-slate-200 flex items-center justify-center text-slate-400 group-hover:border-blue-400 group-hover:text-blue-600 transition faq-icon">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-                        </div>
+                <!-- ITEM -->
+                <div class="border-b border-gray-200 pb-6">
+                    <button class="faq-btn flex justify-between items-center w-full text-left">
+                        <span class="text-lg font-semibold text-gray-900">
+                            How can I get started with NinjaConnect ISM?
+                        </span>
+                        <span class="faq-icon text-2xl font-light">+</span>
                     </button>
-                    <div class="px-6 pb-5 text-slate-600 text-sm leading-relaxed hidden faq-content">
-                        <p>Getting started with NinjaConnect ISM is easy! Simply reach out to our team through our website or contact information, and we’ll guide you through the process of implementing our platform to enhance your organization’s security and productivity.</p>
+                    <div class="faq-content mt-4 text-gray-600 leading-relaxed hidden">
+                        Getting started is easy! Reach out to our team and we’ll guide you through the process of implementing our platform.
                     </div>
                 </div>
             </div>
@@ -757,7 +758,7 @@
                     <li><a href="/about.html" class="hover:text-white transition">About Us</a></li>
                     <li><a href="#" class="hover:text-white transition">Customers</a></li>
                     <li><a href="#" class="hover:text-white transition">Partners</a></li>
-                    <li><a href="#" class="hover:text-white transition">Contact</a></li>
+                    <li><a href="/contact.html" class="hover:text-white transition">Contact</a></li>
                 </ul>
             </div>
         </div>
@@ -842,29 +843,47 @@
             /* =========================
                FAQ ACCORDION
             ========================= */
-            const faqBtns = document.querySelectorAll('.faq-btn');
-            faqBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
+            const faqButtons = document.querySelectorAll(".faq-btn");
+            
+            // Setup smooth transitions
+            document.querySelectorAll(".faq-content").forEach(content => {
+                content.classList.remove("hidden");
+                content.style.maxHeight = "0";
+                content.style.overflow = "hidden";
+                content.style.transition = "max-height 0.3s ease-out, opacity 0.3s ease-out, margin-top 0.3s ease-out";
+                content.style.opacity = "0";
+                content.style.marginTop = "0";
+            });
+
+            document.querySelectorAll(".faq-icon").forEach(icon => {
+                icon.style.transition = "transform 0.3s ease";
+                icon.style.display = "inline-block";
+                icon.textContent = "+"; // ensure it's plus initially
+            });
+
+            faqButtons.forEach((btn) => {
+                btn.addEventListener("click", () => {
                     const content = btn.nextElementSibling;
-                    const iconPath = btn.querySelector('.faq-icon path');
-                    const iconContainer = btn.querySelector('.faq-icon');
-                    
-                    const isExpanded = !content.classList.contains('hidden');
-                    
-                    // Close all FAQs first
-                    document.querySelectorAll('.faq-content').forEach(c => c.classList.add('hidden'));
-                    document.querySelectorAll('.faq-icon path').forEach(p => p.setAttribute('d', 'M12 4v16m8-8H4'));
-                    document.querySelectorAll('.faq-icon').forEach(i => {
-                        i.classList.remove('bg-blue-50', 'text-blue-600', 'border-blue-200');
-                        i.classList.add('text-slate-400', 'border-slate-200');
+                    const icon = btn.querySelector(".faq-icon");
+
+                    const isOpen = content.style.maxHeight !== "0px" && content.style.maxHeight !== "0";
+
+                    // Close all
+                    document.querySelectorAll(".faq-content").forEach(c => {
+                        c.style.maxHeight = "0";
+                        c.style.opacity = "0";
+                        c.style.marginTop = "0";
                     });
-                    
-                    // Open the clicked one if it wasn't already expanded
-                    if (!isExpanded) {
-                        content.classList.remove('hidden');
-                        iconPath.setAttribute('d', 'M20 12H4'); // minus icon
-                        iconContainer.classList.remove('text-slate-400', 'border-slate-200');
-                        iconContainer.classList.add('bg-blue-50', 'text-blue-600', 'border-blue-200');
+                    document.querySelectorAll(".faq-icon").forEach(i => {
+                        i.style.transform = "rotate(0deg)";
+                    });
+
+                    // Open current
+                    if (!isOpen) {
+                        content.style.marginTop = "1rem"; // mt-4 equivalent
+                        content.style.maxHeight = (content.scrollHeight + 16) + "px"; // add margin
+                        content.style.opacity = "1";
+                        icon.style.transform = "rotate(45deg)";
                     }
                 });
             });
